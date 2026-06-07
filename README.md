@@ -1,4 +1,4 @@
-# TS2ReflectiveWater
+# TS2 Reflective Water
 ## About
 A patch for The Sims 2 that improves ocean reflections in lot view, inspired by the reflections seen in Castaway Stories.
 
@@ -16,12 +16,13 @@ without it, it was important to also include this functionality here. My method 
 **Note for Sims2RPC users:** This patch will make RPC's option to enable/disable lot ocean reflections have no effect.
 
 ### Full Scene Reflections
-By default, Sims 2 only permits objects internally tagged as both `"VisibleInWaterReflection"` and `"Props"` to reflect in water. This is rather limited, as only large
+By default, Sims 2 only permits objects internally flagged as both `"VisibleInWaterReflection"` and `"Props"` to reflect in water. This is rather limited, as only large
 neighbourhood decorations will be reflected, excluding important scenery such as houses, roads, and trees. These restrictions have been lifted, allowing all of these
 to reflect, as well as things like Sims and clouds.
 
 | Vanilla | Mod |
 | :-----: | :--: |
+| <img src="media/vanillareflections.png" width="450"> | <img src="media/modreflections.png" width="450"> |
 
 **Note on tree reflections:** In order to get trees to reflect, it was necessary to prevent them becoming imposters in lot view (i.e. they're rendered as their full model,
 rather than an optimised LOD model). There haven't been any performance concerns noted by those who have tested the mod, but this should still be kept in mind if playing
@@ -37,14 +38,15 @@ to add a configuration file in a future update that allows for the offset to be 
 
 | Vanilla | Mod |
 | :-----: | :--: |
+| <img src="media/vanillagap.png"> | <img src="media/modgap.png"> |
 
 ### Castaway Water Shaders
 Also included are modified water shaders from Castaway Stories, featuring fancy water movement and the removal of the unnatural cyan tint of the vanilla water.
 A version compatible with [dreadpirate's shader fixes](https://www.tumblr.com/dreadpirate/179182314487/blue-snow-no-more-shader-fixes-ive-included) has been
-provided, for those using that mod.
+provided, for anyone using that mod.
 
-These shaders are ***completely optional*** and are not required for the mod to work. This means you can use the vanilla water shaders or an alternative water mod
-such as [Voeille's](https://modthesims.info/d/587597/pond-amp-sea-water-overhaul.html) with the plugin, if you prefer the look of those.
+These shaders are ***completely optional*** and are not required for the plugin to work. This means you can use the plugin with the vanilla water shaders, or
+alternative water shaders such as [Voeille's](https://modthesims.info/d/587597/pond-amp-sea-water-overhaul.html), if you prefer the look of those.
 
 ## Installation
 ### Plugin
@@ -70,6 +72,6 @@ such as [Voeille's](https://modthesims.info/d/587597/pond-amp-sea-water-overhaul
 [dreadpirate's shader fixes](https://www.tumblr.com/dreadpirate/179182314487/blue-snow-no-more-shader-fixes-ive-included) and ensure my shaders load last, otherwise use the 'Maxis' version.
 
 ## Thanks
-[LazyDuchess](https://github.com/LazyDuchess), for the hooking code I used for this mod.
+[LazyDuchess](https://github.com/LazyDuchess), for the hooking code used in this mod.
 
 [dreadpirate](https://www.tumblr.com/dreadpirate), for their shader fixes mod.
