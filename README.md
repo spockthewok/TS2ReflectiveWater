@@ -13,12 +13,13 @@ forced off. This patch changes these checks to always succeed, so ocean reflecti
 [Sims2RPC](https://modthesims.info/d/648220/sims2rpc-modded-sims-2-launcher-for-mansion-and-garden.html) already has an option for this, but since some people play
 without it, it was important to also include this functionality here. My method for enabling lot reflections differs from RPC's, so it's not a direct copy.
 
-**Note for Sims2RPC users:** This patch will make RPC's option to enable/disable lot ocean reflections have no effect.
+**Note for Sims2RPC users:** This patch will make RPC's option to enable/disable lot ocean reflections have no effect (as in, lot ocean reflections will still be
+enabled even with the setting disabled in the RPC launcher).
 
 ### Full Scene Reflections
 By default, Sims 2 only permits objects internally flagged as both `"VisibleInWaterReflection"` and `"Props"` to reflect in water. This is rather limited, as only large
-neighbourhood decorations will be reflected, excluding important scenery such as houses, roads, and trees. These restrictions have been lifted, allowing all of these
-to reflect, as well as things like Sims and clouds.
+neighbourhood decorations will be reflected, excluding important scenery such as houses, roads, and trees. These restrictions have been lifted, allowing everything
+to be reflected, as well as things like Sims and clouds.
 
 | Vanilla | Mod |
 | :-----: | :--: |
@@ -30,11 +31,14 @@ on weaker hardware.
 
 ### Reduced Gap Between Ocean and Terrain
 There is a very noticeable gap between the ocean's surface and the landscape in the vanilla game. A minor offset has been added to the height of the reflection plane to
-try and reduce this gap.
+try and reduce this.
 
-This feature is not perfect, as the size of the gap is closely tied to the height of the game's camera &mdash; the higher the camera is positioned, the larger the gap.
-Another small issue is that the increased height of the reflection plane cuts off the reflections of Sims when swimming in the ocean. If this bothers people, I will look
-to add a configuration file in a future update that allows for the offset to be adjusted or completely disabled.
+This feature is not perfect, as the size of the gap is closely tied to the height of the game's camera &mdash; the greater the distance from the camera's position
+to the ocean, the larger the gap. Raising the plane too high causes the reflections to start getting cut off, so a balance was made between maintaining the full
+reflections and reducing the visibility of the gap.
+
+Another small issue is that the increased height of the reflection plane cuts off the reflections of Sims when swimming in the ocean. If this bothers people, I will
+look to add a configuration file in a future update that allows for the offset to be adjusted or completely disabled.
 
 | Vanilla | Mod |
 | :-----: | :--: |
@@ -68,7 +72,7 @@ alternative water shaders such as [Voeille's](https://modthesims.info/d/587597/p
 ### Shaders (Optional)
 1. Download the zip file found under the [Releases](https://github.com/spockthewok/TS2ReflectiveWater/releases) section of this repository.
 
-2. Extract one of the `.package` files within the zip file to your Sims 2 `Downloads` directory. Choose the 'dreadpirate' version if you are using
+2. Extract one of the `.package` files within the zip file to your Sims 2 `\Downloads` directory. Choose the 'dreadpirate' version if you are using
 [dreadpirate's shader fixes](https://www.tumblr.com/dreadpirate/179182314487/blue-snow-no-more-shader-fixes-ive-included) and ensure my shaders load last, otherwise use the 'Maxis' version.
 
 ## Thanks
