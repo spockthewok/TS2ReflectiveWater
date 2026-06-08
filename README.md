@@ -34,7 +34,7 @@ There is a very noticeable gap between the ocean's surface and the landscape in 
 try and reduce this.
 
 This feature is not perfect, as the size of the gap is closely tied to the height of the game's camera &mdash; the greater the distance from the camera's position
-to the ocean, the larger the gap. Raising the plane too high causes the reflections to start getting cut off, so a balance was made between maintaining the full
+to the ocean, the larger the gap. Raising the plane too high causes the reflections to start getting cut off, so a balance was struck between maintaining the full
 reflections and reducing the visibility of the gap.
 
 Another small issue is that the increased height of the reflection plane cuts off the reflections of Sims when swimming in the ocean. If this bothers people, I will
@@ -43,6 +43,14 @@ look to add a configuration file in a future update that allows for the offset t
 | Vanilla | Mod |
 | :-----: | :--: |
 | <img src="media/vanillagap.png"> | <img src="media/modgap.png"> |
+
+### Visible Terrain in Pool Reflections
+Pool water only reflects objects, not the terrain, so objects appear to be floating in the air when viewed in pool reflections. Pools have been patched to allow
+the terrain to be reflected too.
+
+| Vanilla | Mod |
+| :-----: | :--: |
+| <img src="media/vanillapools.png"> | <img src="media/modpools.png"> |
 
 ### Castaway Water Shaders
 Also included are modified water shaders from Castaway Stories, featuring fancy water movement and the removal of the unnatural cyan tint of the vanilla water.

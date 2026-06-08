@@ -15,6 +15,12 @@ namespace Reflections
         // TEST AL,AL -> MOV AL,1
         Hooking::WriteToMemory((DWORD)0xAD5DFD, EnableReflections, sizeof(EnableReflections));
     }
+    // Allows the terrain to be reflected in pool water
+    void EnablePoolTerrainReflections()
+    {
+        // JMP 0xA68B54
+        Hooking::WriteToMemory((DWORD)0xA68B1C, PoolJump, sizeof(PoolJump));
+    }
     // Adds tiny offset to ocean reflection plane height to reduce visible gap between reflection and terrain
     void __declspec(naked) AdjustLotSkirtOffset()
     {

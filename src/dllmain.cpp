@@ -9,6 +9,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
         DisableThreadLibraryCalls(hModule);
         Reflections::ForceReflections();
         Reflections::EnableTreeReflections();
+        Reflections::EnablePoolTerrainReflections();
         Hooking::MakeJMP((BYTE *)0xA80989, (DWORD)Reflections::AdjustLotSkirtOffset, 6);
         Hooking::MakeJMP((BYTE *)0xA809D3, (DWORD)Reflections::EnableCastawayStyleReflections, 6);
         break;
