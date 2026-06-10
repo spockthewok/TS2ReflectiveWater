@@ -57,7 +57,7 @@ The lighting manager responsible for updating skybox reflections based on the cu
 `"day"` or `"night"` to change the reflection for the correct time of day, except in seasons other than summer, it is instead passed the string of
 the season name (e.g. `"winter"`), which causes the skybox visible in the ocean reflection to never update &mdash; this has been fixed.
 
-Instead of checking strings passed to the function, it will instead check internal variables for the time of day, current season, and current precipitation
+Rather than checking strings passed to the function, it will now check internal variables for the time of day, current season, and current precipitation
 type to more accurately choose the correct reflection.
 
 | Vanilla | Mod |
