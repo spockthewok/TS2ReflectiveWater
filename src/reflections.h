@@ -3,15 +3,14 @@
 
 const DWORD OceanPlaneHeight_Exit = 0xA8098F;
 const DWORD ConfigureOceanReflection_Exit = 0xA80AA2;
-const DWORD RenderGroupManager = 0xE73960;
 
-const char EnableReflections[] = {0xB0, 0x01};
-const char PoolJump[] = {0xEB, 0x36};
+const char enableReflections[] = {0xB0, 0x01};
+const char poolJump[] = {0xEB, 0x36};
 const float lotSkirtOffset = 0.55;
 
 namespace Reflections
 {
-    void ForceReflections();
+    void ForceLotReflections();
     void EnableTreeReflections();
     void EnablePoolTerrainReflections();
     extern "C" void AdjustLotSkirtOffset();

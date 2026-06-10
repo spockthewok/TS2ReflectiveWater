@@ -1,27 +1,28 @@
 #include "hooking.h"
+#include "TS2.h"
 #include "reflections.h"
 
 namespace Reflections
 {
     // Force enables lot ocean reflections
-    void ForceReflections()
+    void ForceLotReflections()
     {
         // XOR AL,AL -> MOV AL,1
-        Hooking::WriteToMemory((DWORD)0xA808F8, EnableReflections, sizeof(EnableReflections));
+        Hooking::WriteToMemory((DWORD)0xA808F8, enableReflections, sizeof(enableReflections));
     }
     // Prevents hood deco trees becoming billboard imposters in lot view as these do not reflect
     void EnableTreeReflections()
     {
         // TEST AL,AL -> MOV AL,1
-        Hooking::WriteToMemory((DWORD)0xAD5DFD, EnableReflections, sizeof(EnableReflections));
+        Hooking::WriteToMemory((DWORD)0xAD5DFD, enableReflections, sizeof(enableReflections));
     }
     // Allows the terrain to be reflected in pool water
     void EnablePoolTerrainReflections()
     {
         // JMP 0xA68B54
-        Hooking::WriteToMemory((DWORD)0xA68B1C, PoolJump, sizeof(PoolJump));
+        Hooking::WriteToMemory((DWORD)0xA68B1C, poolJump, sizeof(poolJump));
     }
-    // Adds tiny offset to ocean reflection plane height to reduce visible gap between reflection and terrain
+    // Adds offset to ocean reflection plane height to reduce visible gap between reflection and terrain
     void __declspec(naked) AdjustLotSkirtOffset()
     {
         __asm {

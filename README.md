@@ -52,6 +52,21 @@ the terrain to be reflected too.
 | :-----: | :--: |
 | <img src="media/vanillapools.png"> | <img src="media/modpools.png"> |
 
+### Fixed Seasonal Skybox Reflection Transitions
+The lighting manager responsible for updating skybox reflections based on the current season or weather is bugged. It checks for the strings
+`"day"` or `"night"` to change the reflection for the correct time of day, except in seasons other than summer, it is instead passed the string of
+the season name (e.g. `"winter"`), which causes the skybox visible in the ocean reflection to never update &mdash; this has been fixed.
+
+Instead of checking strings passed to the function, it will instead check internal variables for the time of day, current season, and current precipitation
+type to more accurately choose the correct reflection.
+
+| Vanilla | Mod |
+| :-----: | :--: |
+| <img src="media/bugreflections.png" width="450"> | <img src="media/fixreflections.png" width="450"> |
+
+**Note:** There's a rare chance the lighting manager won't be triggered on a weather change. This means the skybox reflection may get stuck
+in the overcast state when the sky is clear and vice versa. The reflection will fix itself the next time the lighting manager is called.
+
 ### Castaway Water Shaders
 Also included are modified water shaders from Castaway Stories, featuring fancy water movement and the removal of the unnatural cyan tint of the vanilla water.
 A version compatible with [dreadpirate's shader fixes](https://www.tumblr.com/dreadpirate/179182314487/blue-snow-no-more-shader-fixes-ive-included) has been
@@ -64,7 +79,7 @@ alternative water shaders such as [Voeille's](https://modthesims.info/d/587597/p
 ### Plugin
 **For Sims2RPC**
 
-1. Download the plugin found under the [Releases](https://github.com/spockthewok/TS2ReflectiveWater/releases) section of this repository.
+1. Download the plugin found under the [Releases](https://github.com/spockthewok/TS2ReflectiveWater/releases/latest) section of this repository.
 2. Move the downloaded plugin to the `\TSBin\mods` directory, found under wherever you have the Sims 2 installed to. For example, on my machine, the plugin would be moved to:
 
    `E:\Games\The Sims 2\Fun with Pets\SP9\TSBin\mods`
@@ -75,10 +90,10 @@ alternative water shaders such as [Voeille's](https://modthesims.info/d/587597/p
 2. Extract `dsound.dll` from the zip file and place it in the game's `\TSBin` directory. On my machine, it would go here:
 
    `E:\Games\The Sims 2\Fun with Pets\SP9\TSBin`
-3. Download this plugin and move it to the same `\TSBin` directory Ultimate ASI Loader was extracted to.
+3. Download my [plugin](https://github.com/spockthewok/TS2ReflectiveWater/releases/latest) and move it to the same `\TSBin` directory Ultimate ASI Loader was extracted to.
 
 ### Shaders (Optional)
-1. Download the zip file found under the [Releases](https://github.com/spockthewok/TS2ReflectiveWater/releases) section of this repository.
+1. Download the zip file found under the [Releases](https://github.com/spockthewok/TS2ReflectiveWater/releases/latest) section of this repository.
 
 2. Extract one of the `.package` files within the zip file to your Sims 2 `\Downloads` directory. Choose the 'dreadpirate' version if you are using
 [dreadpirate's shader fixes](https://www.tumblr.com/dreadpirate/179182314487/blue-snow-no-more-shader-fixes-ive-included) and ensure my shaders load last, otherwise use the 'Maxis' version.
