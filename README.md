@@ -64,8 +64,8 @@ type to more accurately choose the correct reflection.
 | :-----: | :--: |
 | <img src="media/bugreflections.png" width="450"> | <img src="media/fixreflections.png" width="450"> |
 
-**Note:** There's a rare chance the lighting manager won't be triggered on a weather change. This means the skybox reflection may get stuck
-in the overcast state when the sky is clear and vice versa. The reflection will fix itself the next time the lighting manager is called.
+**Note:** There's a rare chance the lighting manager won't be prompted to update the reflections on a weather change. This means the skybox reflection
+may get stuck in the overcast state when the sky is clear and vice versa. The reflection will fix itself the next time the lighting manager triggers an update.
 
 ### Castaway Water Shaders
 Also included are modified water shaders from Castaway Stories, featuring fancy water movement and the removal of the unnatural cyan tint of the vanilla water.
