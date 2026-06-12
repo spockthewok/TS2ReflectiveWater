@@ -10,19 +10,50 @@ namespace Reflections
         // XOR AL,AL -> MOV AL,1
         Hooking::WriteToMemory((DWORD)0xA808F8, enableReflections, sizeof(enableReflections));
     }
-    // Prevents hood deco trees becoming billboard imposters in lot view as these do not reflect
+    // Prevents hood deco trees becoming imposters in lot view as these don't reflect
     void EnableTreeReflections()
     {
         // TEST AL,AL -> MOV AL,1
         Hooking::WriteToMemory((DWORD)0xAD5DFD, enableReflections, sizeof(enableReflections));
     }
-    // Allows the terrain to be reflected in pool water
+    // Skips visibility flag filtering to allow the terrain to reflect in pool water
     void EnablePoolTerrainReflections()
     {
         // JMP 0xA68B54
         Hooking::WriteToMemory((DWORD)0xA68B1C, poolJump, sizeof(poolJump));
     }
-    // Adds offset to ocean reflection plane height to reduce visible gap between reflection and terrain
+    // Gives visibility flag to non-imposter walls so ocean plane can "see" them
+    void __declspec(naked) EnableWallReflections()
+    {
+        __asm {
+            mov ecx,[ebp+0xC]
+            mov eax,[ecx]
+            push edi
+            push 0x12391A0 // "Practical"
+            call [eax+0x90]
+            push edi
+            push 0x12366EC // "Walls"
+            jmp InitRenderStatesForNewSubsets_Exit
+        }
+    }
+    // Same as above but for ceilings (floor tiles above ground level)
+    void __declspec(naked) EnableCeilingReflections()
+    {
+        __asm {
+            push 0x12391A0 // "Practical"
+            mov ecx,ebx
+            call [ebp+0x90]
+            mov ebx,[esi+0x30]
+            mov ebp,[ebx]
+            lea ecx,[esp+0x64]
+            mov [esp+0x10],eax
+            call ToChar
+            push eax
+            push 0x123F024 // "Ceilings"
+            jmp SetSubsetRenderStates_Exit
+        }
+    }
+    // Adds offset to ocean plane height to reduce visible gap between reflection and terrain
     void __declspec(naked) AdjustLotSkirtOffset()
     {
         __asm {
@@ -66,7 +97,6 @@ namespace Reflections
             mov edx,[ecx]
             push -0x1
             call [edx+0x138]
-            call RenderGroupManager
             jmp ConfigureOceanReflection_Exit
         }
     }

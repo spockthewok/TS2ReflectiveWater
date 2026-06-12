@@ -11,6 +11,8 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
         Reflections::ForceLotReflections();
         Reflections::EnableTreeReflections();
         Reflections::EnablePoolTerrainReflections();
+        Hooking::MakeJMP((BYTE *)0xA771C5, (DWORD)Reflections::EnableWallReflections, 6);
+        Hooking::MakeJMP((BYTE *)0xAE59A2, (DWORD)Reflections::EnableCeilingReflections, 5);
         Hooking::MakeJMP((BYTE *)0xA80989, (DWORD)Reflections::AdjustLotSkirtOffset, 6);
         Hooking::MakeJMP((BYTE *)0xA809D3, (DWORD)Reflections::EnableCastawayStyleReflections, 6);
         Hooking::MakeJMP((BYTE *)0x7F54D3, (DWORD)Skyboxes::GetPrecipitationType, 6);

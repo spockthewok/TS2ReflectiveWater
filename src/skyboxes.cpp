@@ -52,7 +52,7 @@ namespace Skyboxes
             mov ecx,eax
             call GetSimulator
             test eax,eax
-            jz LAB_Return // Simulator object will be null when game first launches
+            jz LAB_Return // Simulator object is null when game first launches
             mov edx,[eax]
             mov ecx,eax
             call [edx+0xC0]
@@ -99,7 +99,7 @@ namespace Skyboxes
             cmp [timeOfDay],0x3 // Morning
             je LAB_Night
             cmp [precipitationType],0x0
-            jg LAB_Weather // We do this here too if time changes but weather doesn't
+            jg LAB_Weather // Also do this here in case time changes but weather doesn't
             call GetSeason
             cmp [currSeason],0x2 // Autumn
             je LAB_Autumn
