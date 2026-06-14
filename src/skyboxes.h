@@ -1,5 +1,6 @@
 #pragma once
 #include "headers.h"
+#include "shared.h"
 
 const DWORD SetPrecipitationType_Exit = 0x7F54D9;
 const DWORD SetLightingStateByName_Exit = 0xAA5684;

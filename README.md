@@ -1,6 +1,6 @@
 # TS2 Reflective Water
 ## About
-A patch for The Sims 2 that improves ocean reflections in lot view, inspired by the reflections seen in Castaway Stories.
+A patch for The Sims 2 that fixes and improves various aspects of the water reflections in lot view, inspired by the reflections seen in Castaway Stories.
 
 Made for use with The Sims 2: Ultimate Collection, using either [Sims2RPC](https://modthesims.info/d/648220/sims2rpc-modded-sims-2-launcher-for-mansion-and-garden.html)
 or [Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader).
@@ -44,14 +44,6 @@ look to add a configuration file in a future update that allows for the offset t
 | :-----: | :--: |
 | <img src="media/vanillagap.png"> | <img src="media/modgap.png"> |
 
-### Visible Terrain in Pool Reflections
-Pool water only reflects objects, not the terrain, so objects appear to be floating in the air when viewed in pool reflections. Pools have been patched to allow
-the terrain to be reflected too.
-
-| Vanilla | Mod |
-| :-----: | :--: |
-| <img src="media/vanillapools.png"> | <img src="media/modpools.png"> |
-
 ### Fixed Seasonal Skybox Reflection Transitions
 The lighting manager responsible for updating skybox reflections based on the current season or weather is bugged. It checks for the strings
 `"day"` or `"night"` to change the reflection for the correct time of day, except in seasons other than summer, it is instead passed the string of
@@ -63,6 +55,14 @@ type to more accurately choose the correct reflection.
 | Vanilla | Mod |
 | :-----: | :--: |
 | <img src="media/bugreflections.png" width="450"> | <img src="media/fixreflections.png" width="450"> |
+
+### Visible Terrain in Pool Reflections
+Pool water only reflects objects, not the terrain, so objects appear to be floating in the air when viewed in pool reflections. Pools have been patched to allow
+the terrain to be reflected too.
+
+| Vanilla | Mod |
+| :-----: | :--: |
+| <img src="media/vanillapools.png"> | <img src="media/modpools.png"> |
 
 ### Castaway Water Shaders
 Also included are modified water shaders from Castaway Stories, featuring fancy water movement and the removal of the unnatural cyan tint of the vanilla water.

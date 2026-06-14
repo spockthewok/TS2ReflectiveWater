@@ -1,4 +1,3 @@
-#include "TS2.h"
 #include "skyboxes.h"
 
 int precipitationType = 0;
@@ -76,13 +75,14 @@ namespace Skyboxes
             je LAB_Overcast
             cmp [precipitationType],0x3 // Hail
             je LAB_Overcast
+            jmp LAB_Return // If none of the above
         LAB_Overcast:
             push offset envCubeOvercast
             jmp LAB_RegisterEnvCube
         LAB_OvercastSnow:
             push offset envCubeOvercastSnow
         LAB_RegisterEnvCube:
-            push 0x123AF80 // Skybox
+            push 0x123AF80 // "lotSkirtReflectionSkybox"
             call RegisterEnvCubeForSkyBox
             add esp,0x8
         LAB_Return:
@@ -115,7 +115,7 @@ namespace Skyboxes
         LAB_Autumn:
             push offset envCubeAutumn
         LAB_RegisterEnvCube:
-            push 0x123AF80 // Skybox
+            push 0x123AF80 // "lotSkirtReflectionSkybox"
             call RegisterEnvCubeForSkyBox
             add esp,0x8
         LAB_Exit:
