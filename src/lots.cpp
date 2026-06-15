@@ -1,5 +1,12 @@
 #include "lots.h"
 
+namespace
+{
+    const DWORD InitRenderStatesForNewSubsets_Exit = 0xA771CB;
+    const DWORD SetSubsetRenderStates_Exit_1 = 0xAE5634;
+    const DWORD SetSubsetRenderStates_Exit_2 = 0xAE59A7;
+}
+
 // Gives visibility flag to walls/floors/ceilings on lot so ocean plane can "see" them
 namespace Lots
 {
@@ -26,7 +33,7 @@ namespace Lots
             mov ebp,[eax]
             lea ecx,[esp+0x34]
             mov [esp+0x10],eax
-            call ToChar
+            call dword ptr [cRZString::ToChar]
             mov ecx,[esp+0x10]
             push eax
             push 0x1236704 // "Ground"
@@ -44,7 +51,7 @@ namespace Lots
             mov ebp,[ebx]
             lea ecx,[esp+0x64]
             mov [esp+0x10],eax
-            call ToChar
+            call dword ptr [cRZString::ToChar]
             push eax
             push 0x123F024 // "Ceilings"
             jmp SetSubsetRenderStates_Exit_2

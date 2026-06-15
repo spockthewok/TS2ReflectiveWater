@@ -1,8 +1,18 @@
 #include "skyboxes.h"
 
-int precipitationType = 0;
-int currSeason = 0;
-int timeOfDay = 0;
+namespace
+{
+    const DWORD SetPrecipitationType_Exit = 0x7F54D9;
+    const DWORD SetLightingStateByName_Exit = 0xAA5684;
+
+    const char envCubeOvercast[] = "skymap-overcast-day-highres-envcube";
+    const char envCubeOvercastSnow[] = "skymap-overcast-snow-day-highres-envcube";
+    const char envCubeAutumn[] = "skymap-autumn-day-highres-envcube";
+
+    int precipitationType = 0;
+    int currSeason = 0;
+    int timeOfDay = 0;
+}
 
 namespace Skyboxes
 {
@@ -28,7 +38,7 @@ namespace Skyboxes
     void __declspec(naked) GetSeason()
     {
         __asm {
-            call Globals
+            call dword ptr [TS::Globals]
             mov edx,[eax]
             mov ecx,eax
             call [edx+0x84]
@@ -47,9 +57,9 @@ namespace Skyboxes
     void __declspec(naked) GetTimeOfDay()
     {
         __asm {
-            call Globals
+            call dword ptr [TS::Globals]
             mov ecx,eax
-            call GetSimulator
+            call dword ptr [cTSGlobals::GetSimulator]
             test eax,eax
             jz LAB_Return // Simulator object is null when game first launches
             mov edx,[eax]
@@ -83,7 +93,7 @@ namespace Skyboxes
             push offset envCubeOvercastSnow
         LAB_RegisterEnvCube:
             push 0x123AF80 // "lotSkirtReflectionSkybox"
-            call RegisterEnvCubeForSkyBox
+            call dword ptr [cLightingManager::RegisterEnvCubeForSkyBox]
             add esp,0x8
         LAB_Return:
             ret
@@ -116,7 +126,7 @@ namespace Skyboxes
             push offset envCubeAutumn
         LAB_RegisterEnvCube:
             push 0x123AF80 // "lotSkirtReflectionSkybox"
-            call RegisterEnvCubeForSkyBox
+            call dword ptr [cLightingManager::RegisterEnvCubeForSkyBox]
             add esp,0x8
         LAB_Exit:
             jmp SetLightingStateByName_Exit

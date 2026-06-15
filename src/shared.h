@@ -1,9 +1,27 @@
 #pragma once
 #include "headers.h"
 
-extern const DWORD ToChar;
-extern const DWORD GetSimulator;
-extern const DWORD Globals;
-extern const DWORD RegisterEnvCubeForSkyBox;
+namespace cRZString
+{
+    extern const DWORD ToChar;
+}
 
-extern const char enableReflections[2];
+namespace cTSGlobals
+{
+    extern const DWORD GetSimulator;
+}
+
+namespace TS
+{
+    extern const DWORD Globals;
+}
+// Actually an anonymous namespace according to the macOS binary, but it's only used by the cLightingManager object
+namespace cLightingManager
+{
+    extern const DWORD RegisterEnvCubeForSkyBox;
+}
+
+namespace Shared
+{
+    extern const char enableReflections[2];
+}

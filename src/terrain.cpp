@@ -1,5 +1,12 @@
 #include "terrain.h"
 
+namespace
+{
+    const DWORD SetSubsetRenderStates_Exit = 0xAE1A66;
+
+    const char poolJump[2] = {0xEB, 0x36};
+}
+
 namespace Terrain
 {
     // Skips visibility flag filtering to allow terrain to reflect in pool water

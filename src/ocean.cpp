@@ -1,20 +1,28 @@
 #include "ocean.h"
 
+namespace
+{
+    const DWORD ConfigureOceanReflection_Exit_1 = 0xA8098F;
+    const DWORD ConfigureOceanReflection_Exit_2 = 0xA80AA2;
+
+    const float lotSkirtOffset = 0.45;
+}
+
 namespace Ocean
 {
     // Force enables lot ocean reflections
     void ForceLotReflections()
     {
         // XOR AL,AL -> MOV AL,0x1
-        Hooking::WriteToMemory((DWORD)0xA808F8, enableReflections, sizeof(enableReflections));
+        Hooking::WriteToMemory((DWORD)0xA808F8, Shared::enableReflections, sizeof(Shared::enableReflections));
     }
     // Adds offset to ocean plane height to reduce visible gap between reflection and terrain
     void __declspec(naked) AdjustLotSkirtOffset()
     {
         __asm {
-            fld dword ptr ds:[lotSkirtOffset]
+            fld dword ptr [lotSkirtOffset]
             faddp st(1),st(0)
-            mov ecx,dword ptr ds:[0x141C0D8]
+            mov ecx,dword ptr ds:[0x141C0D8] // DAT_0141C0D8
             jmp ConfigureOceanReflection_Exit_1
         }
     }

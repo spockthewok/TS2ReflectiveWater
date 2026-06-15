@@ -6,6 +6,6 @@ namespace Props
     void EnableTreeReflections()
     {
         // TEST AL,AL -> MOV AL,0x1
-        Hooking::WriteToMemory((DWORD)0xAD5DFD, enableReflections, sizeof(enableReflections));
+        Hooking::WriteToMemory((DWORD)0xAD5DFD, Shared::enableReflections, sizeof(Shared::enableReflections));
     }
 }

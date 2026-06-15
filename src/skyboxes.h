@@ -2,13 +2,6 @@
 #include "headers.h"
 #include "shared.h"
 
-const DWORD SetPrecipitationType_Exit = 0x7F54D9;
-const DWORD SetLightingStateByName_Exit = 0xAA5684;
-
-const char envCubeOvercast[] = "skymap-overcast-day-highres-envcube";
-const char envCubeOvercastSnow[] = "skymap-overcast-snow-day-highres-envcube";
-const char envCubeAutumn[] = "skymap-autumn-day-highres-envcube";
-
 namespace Skyboxes
 {
     extern "C" void GetPrecipitationType();
