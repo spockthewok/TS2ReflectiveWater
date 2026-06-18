@@ -38,7 +38,7 @@ namespace Skyboxes
     void __declspec(naked) GetSeason()
     {
         __asm {
-            call dword ptr [TS::Globals]
+            call TS::Globals
             mov edx,[eax]
             mov ecx,eax
             call [edx+0x84]
@@ -57,9 +57,9 @@ namespace Skyboxes
     void __declspec(naked) GetTimeOfDay()
     {
         __asm {
-            call dword ptr [TS::Globals]
+            call TS::Globals
             mov ecx,eax
-            call dword ptr [cTSGlobals::GetSimulator]
+            call cTSGlobals::GetSimulator
             test eax,eax
             jz LAB_Return // Simulator object is null when game first launches
             mov edx,[eax]
@@ -93,7 +93,7 @@ namespace Skyboxes
             push offset envCubeOvercastSnow
         LAB_RegisterEnvCube:
             push 0x123AF80 // "lotSkirtReflectionSkybox"
-            call dword ptr [cLightingManager::RegisterEnvCubeForSkyBox]
+            call cLightingManager::RegisterEnvCubeForSkyBox
             add esp,0x8
         LAB_Return:
             ret
@@ -126,7 +126,7 @@ namespace Skyboxes
             push offset envCubeAutumn
         LAB_RegisterEnvCube:
             push 0x123AF80 // "lotSkirtReflectionSkybox"
-            call dword ptr [cLightingManager::RegisterEnvCubeForSkyBox]
+            call cLightingManager::RegisterEnvCubeForSkyBox
             add esp,0x8
         LAB_Exit:
             jmp SetLightingStateByName_Exit

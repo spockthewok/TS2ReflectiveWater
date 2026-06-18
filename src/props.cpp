@@ -2,7 +2,7 @@
 
 namespace Props
 {
-    // Prevents hood deco trees becoming imposters in lot view as these don't reflect
+    // Allows creation of scene nodes for trees considered 'out of bounds', giving them flags required for reflections
     void EnableTreeReflections()
     {
         // TEST AL,AL -> MOV AL,0x1

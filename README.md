@@ -25,10 +25,6 @@ to be reflected, as well as things like Sims and clouds.
 | :-----: | :--: |
 | <img src="media/vanillareflections.png" width="450"> | <img src="media/modreflections.png" width="450"> |
 
-**Note on tree reflections:** In order to get trees to reflect, it was necessary to prevent them becoming imposters in lot view (i.e. they're rendered as their full model,
-rather than an optimised LOD model). There haven't been any performance concerns noted by those who have tested the mod, but this should still be kept in mind if playing
-on weaker hardware.
-
 ### Reduced Gap Between Ocean and Terrain
 There is a very noticeable gap between the ocean's surface and the landscape in the vanilla game. A minor offset has been added to the height of the reflection plane to
 try and reduce this.
