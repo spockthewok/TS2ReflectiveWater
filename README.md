@@ -1,6 +1,6 @@
 # TS2 Reflective Water
 ## About
-A patch for The Sims 2 that fixes and improves various aspects of the water reflections in lot view, inspired by the reflections seen in Castaway Stories.
+A patch for The Sims 2 that fixes and improves various aspects of water reflections, inspired by the reflections seen in Castaway Stories.
 
 Made for use with The Sims 2: Ultimate Collection, using either [Sims2RPC](https://modthesims.info/d/648220/sims2rpc-modded-sims-2-launcher-for-mansion-and-garden.html)
 or [Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader).
@@ -17,9 +17,9 @@ without it, it was important to also include this functionality here. My method 
 enabled even with the setting disabled in the RPC launcher).
 
 ### Full Scene Reflections
-By default, Sims 2 only permits objects internally flagged as both `"VisibleInWaterReflection"` and `"Props"` to reflect in water. This is rather limited, as only large
-neighbourhood decorations will be reflected, excluding important scenery such as houses, roads, and trees. These restrictions have been lifted, allowing everything
-to be reflected, as well as things like Sims and clouds.
+By default, Sims 2 only permits objects internally flagged as both `"VisibleInWaterReflection"` and `"Props"` to reflect in the lot ocean. This is rather limited, as
+only large neighbourhood decorations will be reflected, excluding important scenery such as houses, roads, and trees. These restrictions have been lifted for both lot
+view and neighbourhood view, allowing everything to be reflected, as well as things like Sims and clouds.
 
 | Vanilla | Mod |
 | :-----: | :--: |

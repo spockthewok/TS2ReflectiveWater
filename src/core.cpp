@@ -20,5 +20,7 @@ namespace Core
         // Skyboxes
         Hooking::MakeJMP((BYTE *)0x7F54D3, (DWORD)Skyboxes::GetPrecipitationType, 6);
         Hooking::MakeJMP((BYTE *)0xAA55ED, (DWORD)Skyboxes::HandleTimeOfDayReflections, 5);
+        // Neighbourhood
+        Hooking::MakeJMP((BYTE *)0xADA9A0, (DWORD)Hood::EnableHoodFullSceneReflections, 5);
     }
 }
