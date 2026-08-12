@@ -16,26 +16,8 @@ namespace
 
 namespace Skyboxes
 {
-    // Stores precipitation type and updates reflection on weather change
-    void __declspec(naked) GetPrecipitationType()
-    {
-        __asm {
-            mov eax,[esp+0x4]
-            mov [precipitationType],eax
-            cmp [precipitationType],0x0
-            jg LAB_UpdateReflections
-            jmp LAB_Exit
-        LAB_UpdateReflections:
-            pushad
-            call HandleWeatherReflections
-            popad
-        LAB_Exit:
-            cmp edx,eax
-            jmp SetPrecipitationType_Exit
-        }
-    }
     // Gets current season as int (we only care about autumn, it has a unique skybox)
-    void __declspec(naked) GetSeason()
+    static void __declspec(naked) GetSeason()
     {
         __asm {
             call TS::Globals
@@ -53,8 +35,9 @@ namespace Skyboxes
             ret
         }
     }
+
     // Gets time of day as int (0 = day, 1 = evening, 2 = night, 3 = morning)
-    void __declspec(naked) GetTimeOfDay()
+    static void __declspec(naked) GetTimeOfDay()
     {
         __asm {
             call TS::Globals
@@ -70,8 +53,9 @@ namespace Skyboxes
             ret
         }
     }
+
     // Handles skybox reflection transitions for overcast weather
-    void __declspec(naked) HandleWeatherReflections()
+    static void __declspec(naked) HandleWeatherReflections()
     {
         __asm {
             call GetTimeOfDay // Don't want to use overcast reflection at night
@@ -99,6 +83,28 @@ namespace Skyboxes
             ret
         }
     }
+
+    // cTSWeatherInfo::SetPrecipitationType
+    // Stores precipitation type and updates reflection on weather change
+    void __declspec(naked) GetPrecipitationType()
+    {
+        __asm {
+            mov eax,[esp+0x4]
+            mov [precipitationType],eax
+            test eax,eax
+            jnz LAB_UpdateReflections
+            jmp LAB_Exit
+        LAB_UpdateReflections:
+            pushad
+            call HandleWeatherReflections
+            popad
+        LAB_Exit:
+            cmp edx,eax
+            jmp SetPrecipitationType_Exit
+        }
+    }
+
+    // cLightingManager::SetLightingStateByName
     // Handles skybox reflection transitions for times of the day
     void __declspec(naked) HandleTimeOfDayReflections()
     {

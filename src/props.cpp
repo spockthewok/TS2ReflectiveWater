@@ -2,6 +2,7 @@
 
 namespace Props
 {
+    // cNHoodOccupantManager::PrepareForDisplay
     // Allows creation of scene nodes for trees considered 'out of bounds', giving them flags required for reflections
     void EnableTreeReflections()
     {

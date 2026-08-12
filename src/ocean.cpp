@@ -8,6 +8,7 @@ namespace
     const float lotSkirtOffset = 0.45;
 }
 
+// cLotSkirt::ConfigureOceanReflection
 namespace Ocean
 {
     // Force enables lot ocean reflections
@@ -16,6 +17,7 @@ namespace Ocean
         // XOR AL,AL -> MOV AL,0x1
         Hooking::WriteToMemory((DWORD)0xA808F8, Shared::enableReflections, sizeof(Shared::enableReflections));
     }
+
     // Adds offset to ocean plane height to reduce visible gap between reflection and terrain
     void __declspec(naked) AdjustLotSkirtOffset()
     {
@@ -26,6 +28,7 @@ namespace Ocean
             jmp ConfigureOceanReflection_Exit_1
         }
     }
+
     // Use Castaway's ocean reflection setup
     void __declspec(naked) EnableCastawayStyleReflections()
     {

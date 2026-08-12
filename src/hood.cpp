@@ -7,6 +7,8 @@ namespace
 
 namespace Hood
 {
+    // cNHoodTerrain::BuildWaterReflection
+    // Changes render group ID allowed to reflect from 999 to -1 (reflect everything)
     void __declspec(naked) EnableHoodFullSceneReflections()
     {
         __asm {

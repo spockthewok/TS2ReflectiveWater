@@ -10,6 +10,7 @@ namespace
 // Gives visibility flag to walls/floors/ceilings on lot so ocean plane can "see" them
 namespace Lots
 {
+    // cWallManager::InitRenderStatesForNewSubsets
     void __declspec(naked) EnableWallReflections()
     {
         __asm {
@@ -24,6 +25,7 @@ namespace Lots
         }
     }
 
+    // cFloor::SetSubsetRenderStates
     void __declspec(naked) EnableFloorReflections()
     {
         __asm {
@@ -41,6 +43,7 @@ namespace Lots
         }
     }
 
+    // cFloor::SetSubsetRenderStates
     void __declspec(naked) EnableCeilingReflections()
     {
         __asm {

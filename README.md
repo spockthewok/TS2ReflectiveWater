@@ -2,8 +2,10 @@
 ## About
 A patch for The Sims 2 that fixes and improves various aspects of water reflections, inspired by the reflections seen in Castaway Stories.
 
-Made for use with The Sims 2: Ultimate Collection, using either [Sims2RPC](https://modthesims.info/d/648220/sims2rpc-modded-sims-2-launcher-for-mansion-and-garden.html)
-or [Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader).
+## Requirements
+- The Sims 2: Ultimate Collection <ins>**OR**</ins> The Sims 2 disc version with all EPs and SPs.
+- [Sims2RPC](https://modthesims.info/d/648220/sims2rpc-modded-sims-2-launcher-for-mansion-and-garden.html) <ins>**OR**</ins>
+[Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader).
 
 ## Features
 ### Lot Ocean Reflections
@@ -13,8 +15,9 @@ forced off. This patch changes these checks to always succeed, so ocean reflecti
 [Sims2RPC](https://modthesims.info/d/648220/sims2rpc-modded-sims-2-launcher-for-mansion-and-garden.html) already has an option for this, but since some people play
 without it, it was important to also include this functionality here. My method for enabling lot reflections differs from RPC's, so it's not a direct copy.
 
-**Note for Sims2RPC users:** This patch will make RPC's option to enable/disable lot ocean reflections have no effect (as in, lot ocean reflections will still be
-enabled even with the setting disabled in the RPC launcher).
+> [!NOTE]
+> If you are using Sims2RPC, this patch will make RPC's option to enable/disable lot ocean reflections have no effect (as in, lot ocean reflections will still be
+> enabled even with the setting disabled in the RPC launcher).
 
 ### Full Scene Reflections
 By default, Sims 2 only permits objects internally flagged as both `"VisibleInWaterReflection"` and `"Props"` to reflect in the lot ocean. This is rather limited, as
@@ -69,15 +72,15 @@ These shaders are ***completely optional*** and are not required for the plugin 
 alternative water shaders such as [Voeille's](https://modthesims.info/d/587597/pond-amp-sea-water-overhaul.html), if you prefer the look of those.
 
 ## Installation
-### Plugin
-**For Sims2RPC**
+### <ins>Plugin</ins>
+**Sims2RPC Users:**
 
 1. Download the plugin found under the [Releases](https://github.com/spockthewok/TS2ReflectiveWater/releases/latest) section of this repository.
 2. Move the downloaded plugin to the `\TSBin\mods` directory, found under wherever you have the Sims 2 installed to. For example, on my machine, the plugin would be moved to:
 
    `E:\Games\The Sims 2\Fun with Pets\SP9\TSBin\mods`
 
-**For Ultimate ASI Loader**
+**Ultimate ASI Loader Users:**
 
 1. Download Ultimate ASI Loader from [here](https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases/download/Win32-latest/dsound-Win32.zip).
 2. Extract `dsound.dll` from the zip file and place it in the game's `\TSBin` directory. On my machine, it would go here:
@@ -85,8 +88,8 @@ alternative water shaders such as [Voeille's](https://modthesims.info/d/587597/p
    `E:\Games\The Sims 2\Fun with Pets\SP9\TSBin`
 3. Download my [plugin](https://github.com/spockthewok/TS2ReflectiveWater/releases/latest) and move it to the same `\TSBin` directory Ultimate ASI Loader was extracted to.
 
-### Shaders (Optional)
-1. Download the zip file found under the [Releases](https://github.com/spockthewok/TS2ReflectiveWater/releases/latest) section of this repository.
+### <ins>Shaders (Optional)</ins>
+1. Download `Shaders.zip` from the [Releases](https://github.com/spockthewok/TS2ReflectiveWater/releases/latest) section of this repository.
 
 2. Extract one of the `.package` files within the zip file to your Sims 2 `\Downloads` directory. Choose the 'dreadpirate' version if you are using
 [dreadpirate's shader fixes](https://www.tumblr.com/dreadpirate/179182314487/blue-snow-no-more-shader-fixes-ive-included) and ensure my shaders load last, otherwise use the 'Maxis' version.

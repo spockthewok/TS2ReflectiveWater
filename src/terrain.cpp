@@ -9,12 +9,15 @@ namespace
 
 namespace Terrain
 {
+    // cPoolManager::SetupPoolReflectionCamera
     // Skips visibility flag filtering to allow terrain to reflect in pool water
     void EnablePoolTerrainReflections()
     {
         // JMP 0xA68B54
         Hooking::WriteToMemory((DWORD)0xA68B1C, poolJump, sizeof(poolJump));
     }
+
+    // cTerrain::SetSubsetRenderStates
     // Gives visibility flag to terrain material types so ocean plane can "see" them
     void __declspec(naked) EnableLotTerrainReflections()
     {
