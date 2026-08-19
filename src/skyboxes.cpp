@@ -54,22 +54,41 @@ namespace Skyboxes
         }
     }
 
+    // Gets current precipitation type as int (0 = clear, 1 = snow, 2 = rain, 3 = hail)
+    static void __declspec(naked) GetPrecipitationType()
+    {
+        __asm {
+            call TS::Globals
+            mov edx,[eax]
+            mov ecx,eax
+            call [edx+0x84]
+            mov esi,eax
+            test esi,esi
+            jz LAB_Return
+            mov eax,[esi]
+            mov ecx,esi
+            call [eax+0x64]
+            mov [precipitationType],eax
+        LAB_Return:
+            ret
+        }
+    }
+
     // Handles skybox reflection transitions for overcast weather
     static void __declspec(naked) HandleWeatherReflections()
     {
         __asm {
             call GetTimeOfDay // Don't want to use overcast reflection at night
             cmp [timeOfDay],0x2 // Night
-            je LAB_Return
+            jz LAB_Return
             cmp [timeOfDay],0x3 // Morning
-            je LAB_Return
+            jz LAB_Return
             cmp [precipitationType],0x1 // Snow
-            je LAB_OvercastSnow
+            jz LAB_OvercastSnow
             cmp [precipitationType],0x2 // Rain
-            je LAB_Overcast
+            jz LAB_Overcast
             cmp [precipitationType],0x3 // Hail
-            je LAB_Overcast
-            jmp LAB_Return // If none of the above
+            jnz LAB_Return
         LAB_Overcast:
             push offset envCubeOvercast
             jmp LAB_RegisterEnvCube
@@ -85,15 +104,15 @@ namespace Skyboxes
     }
 
     // cTSWeatherInfo::SetPrecipitationType
-    // Stores precipitation type and updates reflection on weather change
-    void __declspec(naked) GetPrecipitationType()
+    // Updates skybox reflection on weather change
+    // We do this here as lighting manager isn't always prompted to update
+    void __declspec(naked) UpdateWeatherReflections()
     {
         __asm {
             mov eax,[esp+0x4]
             mov [precipitationType],eax
             test eax,eax
-            jnz LAB_UpdateReflections
-            jmp LAB_Exit
+            jz LAB_Exit
         LAB_UpdateReflections:
             pushad
             call HandleWeatherReflections
@@ -111,14 +130,15 @@ namespace Skyboxes
         __asm {
             call GetTimeOfDay
             cmp [timeOfDay],0x2 // Night
-            je LAB_Night
+            jz LAB_Night
             cmp [timeOfDay],0x3 // Morning
-            je LAB_Night
+            jz LAB_Night
+            call GetPrecipitationType
             cmp [precipitationType],0x0
-            jg LAB_Weather // Also do this here in case time changes but weather doesn't
+            jnz LAB_Weather // Also do this here in case time changes but weather doesn't
             call GetSeason
             cmp [currSeason],0x2 // Autumn
-            je LAB_Autumn
+            jz LAB_Autumn
         LAB_Day:
             push 0x123BA7C // Day envcube
             jmp LAB_RegisterEnvCube

@@ -18,7 +18,7 @@ namespace Core
         Terrain::EnablePoolTerrainReflections();
         Hooking::MakeJMP((BYTE *)0xAE1A61, (DWORD)Terrain::EnableLotTerrainReflections, 5);
         // Skyboxes
-        Hooking::MakeJMP((BYTE *)0x7F54D3, (DWORD)Skyboxes::GetPrecipitationType, 6);
+        Hooking::MakeJMP((BYTE *)0x7F54D3, (DWORD)Skyboxes::UpdateWeatherReflections, 6);
         Hooking::MakeJMP((BYTE *)0xAA55ED, (DWORD)Skyboxes::HandleTimeOfDayReflections, 5);
         // Neighbourhood
         Hooking::MakeJMP((BYTE *)0xADA9A0, (DWORD)Hood::EnableHoodFullSceneReflections, 5);

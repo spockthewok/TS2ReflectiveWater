@@ -4,6 +4,6 @@
 
 namespace Skyboxes
 {
-    extern "C" void GetPrecipitationType();
+    extern "C" void UpdateWeatherReflections();
     extern "C" void HandleTimeOfDayReflections();
 }
