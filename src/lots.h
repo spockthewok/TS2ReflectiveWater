@@ -1,6 +1,5 @@
 #pragma once
-#include "headers.h"
-#include "shared.h"
+#include "TS2.h"
 
 namespace Lots
 {

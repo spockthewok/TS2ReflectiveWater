@@ -10,6 +10,7 @@ namespace Core
         Hooking::MakeJMP((BYTE *)0xA809D3, (DWORD)Ocean::EnableCastawayStyleReflections, 6);
         // Props
         Props::EnableTreeReflections();
+        Hooking::MakeJMP((BYTE *)0xAD508C, (DWORD)Props::EnableBridgeReflections, 5);
         // Lots
         Hooking::MakeJMP((BYTE *)0xA771C5, (DWORD)Lots::EnableWallReflections, 6);
         Hooking::MakeJMP((BYTE *)0xAE562F, (DWORD)Lots::EnableFloorReflections, 5);

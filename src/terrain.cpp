@@ -4,7 +4,7 @@ namespace
 {
     const DWORD SetSubsetRenderStates_Exit = 0xAE1A66;
 
-    const char poolJump[2] = {0xEB, 0x36};
+    const BYTE poolJump[2] = {0xEB, 0x36};
 }
 
 namespace Terrain

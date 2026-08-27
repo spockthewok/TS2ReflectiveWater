@@ -1,4 +1,4 @@
-#include "shared.h"
+#include "TS2.h"
 
 // Base addresses of various TS2 methods
 namespace cRZString
@@ -19,10 +19,4 @@ namespace TS
 namespace cLightingManager
 {
     const DWORD RegisterEnvCubeForSkyBox = 0xA96480;
-}
-
-namespace Shared
-{
-    // General purpose bytecode for "MOV AL,0x1"
-    const char enableReflections[2] = {0xB0, 0x01};
 }

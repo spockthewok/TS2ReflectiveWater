@@ -2,6 +2,20 @@
 
 namespace Hooking
 {
+    void Nop(BYTE *pAddress, DWORD dwLen)
+    {
+        DWORD dwOldProtect, dwBkup;
+
+        VirtualProtect(pAddress, dwLen, PAGE_EXECUTE_READWRITE, &dwOldProtect);
+
+        for (DWORD x = 0x0; x < dwLen; x++)
+            *(pAddress + x) = 0x90;
+
+        VirtualProtect(pAddress, dwLen, dwOldProtect, &dwBkup);
+
+        return;
+    }
+
     void MakeJMP(BYTE *pAddress, DWORD dwJumpTo, DWORD dwLen)
     {
         DWORD dwOldProtect, dwBkup, dwRelAddr;
@@ -19,12 +33,12 @@ namespace Hooking
         return;
     }
 
-    void WriteToMemory(DWORD addressToWrite, const char *valueToWrite, int byteNum)
+    void WriteToMemory(DWORD addressToWrite, const BYTE *valueToWrite, int byteNum)
     {
         unsigned long OldProtection;
 
         VirtualProtect((LPVOID)(addressToWrite), byteNum, PAGE_EXECUTE_READWRITE, &OldProtection);
         memcpy((LPVOID)addressToWrite, valueToWrite, byteNum);
-        VirtualProtect((LPVOID)(addressToWrite), byteNum, OldProtection, &OldProtection);
+        VirtualProtect((LPVOID)(addressToWrite), byteNum, OldProtection, NULL);
     }
 }
