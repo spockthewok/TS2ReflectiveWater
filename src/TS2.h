@@ -31,6 +31,7 @@ namespace cLightingManager
 namespace cFloor
 {
     extern const DWORD SetReflectionState;
+    // This also belongs to an anonymous namespace, but it's only used by floors
     extern const DWORD ConfigureReflectionCamera;
 }
 
@@ -39,6 +40,9 @@ namespace cWaterGeometryBuilder
     extern const DWORD SetWaterElevation;
 }
 
-// No idea if this is the name of this method
-// macOS does its operations inline, or just performs a cast
-extern const DWORD FloatToInt;
+namespace Unknown
+{
+    // No idea if this is the name of this method
+    // macOS does its operations inline, or just performs a cast
+    extern const DWORD FloatToInt;
+}

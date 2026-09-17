@@ -31,7 +31,7 @@ namespace Ocean
         }
     }
 
-    // Use Castaway's ocean reflection setup
+    // Use Castaway's ocean reflection setup for ocean viewer node
     void __declspec(naked) EnableCastawayStyleReflections()
     {
         __asm {
@@ -46,7 +46,7 @@ namespace Ocean
             call [edx+0x194]
             mov ecx,[esi]
             mov edx,[ecx]
-            push 0x9 // 9 = kRenderTypeOceanReflection (Castaway uses 0x2, but this breaks mirrors)
+            push 0x9 // 9 = kRenderTypeOceanReflection (Castaway uses 0x2)
             call [edx+0x184]
             mov ecx,[esi]
             mov eax,[ecx]

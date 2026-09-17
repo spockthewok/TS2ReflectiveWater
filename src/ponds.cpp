@@ -5,7 +5,8 @@ namespace
     const DWORD SetWaterElevation_Exit = 0xAE1095;
     const DWORD Shutdown_Exit = 0xAE4886;
     const DWORD Initialize_Exit = 0xAE63CF;
-    const DWORD ConfigureReflectionCamera_Exit = 0xB62653;
+    const DWORD ConfigureReflectionCamera_Exit_1 = 0xB62653;
+    const DWORD ConfigureReflectionCamera_Exit_2 = 0xB626FE;
 
     int cVertex[3];
     int maxX = 0;
@@ -78,12 +79,12 @@ namespace Ponds
     {
         __asm {
             call [eax+0x138] // cWorldDB::MaxY
-            call FloatToInt
+            call Unknown::FloatToInt
             mov ebp,eax
             mov eax,[esi]
             mov ecx,esi
             call [eax+0x134] // cWorldDB::MaxX
-            call FloatToInt
+            call Unknown::FloatToInt
             mov [esp+0x1C],eax
             mov [maxX],eax
             mov eax,[esp+0x14]
@@ -115,13 +116,49 @@ namespace Ponds
         LAB_SetHeight:
             fld [esp-0x14] // Water elevation calculated by cWorldDB::IsWaterVertex
             fstp [esp+0x48]
-            jmp ConfigureReflectionCamera_Exit
+            jmp ConfigureReflectionCamera_Exit_1
+        }
+    }
+
+    // (anonymous_namespace)::ConfigureReflectionCamera
+    // Extends floor viewer node config so ponds are as reflective as ocean
+    void __declspec(naked) ConfigureViewer()
+    {
+        __asm {
+            push 0x7 // 7 = kRenderTypePoolReflection
+            lea eax,[esp+0x2C]
+            push eax
+            push esi
+            mov ecx,edi
+            call [edx+0x194]
+            mov edx,[edi]
+            push 0x2 // 2 = kRenderTypeReflection
+            mov ecx,edi
+            call [edx+0x184]
+            mov edx,[edi]
+            push 0x1
+            mov ecx,edi
+            call [edx+0x1EC]
+            mov edx,[edi]
+            push 0x123AF80 // "lotSkirtReflectionSkybox"
+            push 0x0
+            mov ecx,edi
+            call [edx+0x1F0]
+            mov edx,[edi]
+            push -0x1
+            mov ecx,edi
+            call [edx+0x140]
+            mov edx,[edi]
+            push -0x1
+            mov ecx,edi
+            call [edx+0x138]
+            jmp ConfigureReflectionCamera_Exit_2
         }
     }
 
     // cTerrain::SetWaterElevation
-    // Updates reflection camera when player uses water tool
-    // Ensures camera matches height of new water elevation
+    // Updates reflection camera when player uses terrain tools
+    // Ensures reflection matches new water elevation
     void __declspec(naked) UpdateCameraOnElevationChange()
     {
         __asm {

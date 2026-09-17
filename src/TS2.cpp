@@ -37,4 +37,7 @@ namespace cWaterGeometryBuilder
     const DWORD SetWaterElevation = 0xB7C130;
 }
 
-const DWORD FloatToInt = 0xE5C948;
+namespace Unknown
+{
+    const DWORD FloatToInt = 0xE5C948;
+}

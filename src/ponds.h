@@ -9,4 +9,5 @@ namespace Ponds
     void FixVisibilityFilter();
     extern "C" void SetPlaneHeight();
     extern "C" void UpdateCameraOnElevationChange();
+    extern "C" void ConfigureViewer();
 }
