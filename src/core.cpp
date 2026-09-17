@@ -23,5 +23,15 @@ namespace Core
         Hooking::MakeJMP((BYTE *)0xAA55ED, (DWORD)Skyboxes::HandleTimeOfDayReflections, 5);
         // Neighbourhood
         Hooking::MakeJMP((BYTE *)0xADA9A0, (DWORD)Hood::EnableHoodFullSceneReflections, 5);
+
+        // Ponds
+        if (Config::enablePondReflections)
+        {
+            Hooking::MakeJMP((BYTE *)0xAE63CA, (DWORD)Ponds::InitPondCamera, 5);
+            Hooking::MakeJMP((BYTE *)0xAE4880, (DWORD)Ponds::DetachCameraOnShutdown, 6);
+            Ponds::FixVisibilityFilter();
+            Hooking::MakeJMP((BYTE *)0xB625E4, (DWORD)Ponds::SetPlaneHeight, 6);
+            Hooking::MakeJMP((BYTE *)0xAE1090, (DWORD)Ponds::UpdateCameraOnElevationChange, 5);
+        }
     }
 }

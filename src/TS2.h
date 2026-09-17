@@ -6,6 +6,11 @@ namespace cRZString
     extern const DWORD ToChar;
 }
 
+namespace nTSWorld
+{
+    extern const DWORD TSSGSystem;
+}
+
 namespace cTSGlobals
 {
     extern const DWORD GetSimulator;
@@ -22,3 +27,18 @@ namespace cLightingManager
 {
     extern const DWORD RegisterEnvCubeForSkyBox;
 }
+
+namespace cFloor
+{
+    extern const DWORD SetReflectionState;
+    extern const DWORD ConfigureReflectionCamera;
+}
+
+namespace cWaterGeometryBuilder
+{
+    extern const DWORD SetWaterElevation;
+}
+
+// No idea if this is the name of this method
+// macOS does its operations inline, or just performs a cast
+extern const DWORD FloatToInt;
