@@ -86,6 +86,6 @@ namespace Config
         enableCeilingReflections = GetBool("Lots", "enableCeilingReflections", enableCeilingReflections);
 
         if (!hasBetaFloors)
-            GetBool("Ponds", "enablePondReflections", enablePondReflections);
+            enablePondReflections = GetBool("Ponds", "enablePondReflections", enablePondReflections);
     }
 }
