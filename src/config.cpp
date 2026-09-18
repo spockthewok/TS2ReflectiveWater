@@ -84,8 +84,9 @@ namespace Config
         enableWallReflections = GetBool("Lots", "enableWallReflections", enableWallReflections);
         enableFloorReflections = GetBool("Lots", "enableFloorReflections", enableFloorReflections);
         enableCeilingReflections = GetBool("Lots", "enableCeilingReflections", enableCeilingReflections);
-
         if (!hasBetaFloors)
             enablePondReflections = GetBool("Ponds", "enablePondReflections", enablePondReflections);
+
+        file.write(ini, true);
     }
 }
