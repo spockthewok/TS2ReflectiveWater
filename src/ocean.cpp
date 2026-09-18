@@ -6,8 +6,6 @@ namespace
     const DWORD ConfigureOceanReflection_Exit_2 = 0xA80AA2;
 
     const BYTE enableReflections[2] = {0xB0, 0x01};
-
-    const float lotSkirtOffset = 0.45;
 }
 
 // cLotSkirt::ConfigureOceanReflection
@@ -24,9 +22,8 @@ namespace Ocean
     void __declspec(naked) AdjustLotSkirtOffset()
     {
         __asm {
-            fld dword ptr [lotSkirtOffset]
-            faddp st(1),st(0)
-            mov ecx,dword ptr ds:[0x141C0D8] // DAT_0141C0D8
+            fadd [Config::oceanReflectionOffset]
+            mov ecx,dword ptr ds:[0x141C0D8] // DAT_0141C0D8 (const float 0.0)
             jmp ConfigureOceanReflection_Exit_1
         }
     }

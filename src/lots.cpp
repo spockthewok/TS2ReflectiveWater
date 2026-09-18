@@ -7,7 +7,7 @@ namespace
     const DWORD SetSubsetRenderStates_Exit_2 = 0xAE59A7;
 }
 
-// Gives visibility flag to walls/floors/ceilings on lot so ocean plane can "see" them
+// Gives render flag to walls/floors/ceilings on lot so ocean plane can "see" them
 namespace Lots
 {
     // cWallManager::InitRenderStatesForNewSubsets

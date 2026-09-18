@@ -25,7 +25,7 @@ namespace Ponds
             call [eax+0xC]
             cmp ebp,0x0 // EBP = current level
             jne LAB_Exit
-            mov [esi+0x80],0x1 // Set flag required for camera
+            mov [esi+0x80],0x1 // Set var required for camera
             pushad
             push 0x1
             mov ecx,esi
@@ -158,7 +158,7 @@ namespace Ponds
 
     // cTerrain::SetWaterElevation
     // Updates reflection camera when player uses terrain tools
-    // Ensures reflection matches new water elevation
+    // Ensures reflection matches changes to water elevation
     void __declspec(naked) UpdateCameraOnElevationChange()
     {
         __asm {

@@ -1,6 +1,7 @@
 #pragma once
 #include "hooking.h"
 #include "TS2.h"
+#include "config.h"
 
 namespace Ocean
 {

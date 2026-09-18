@@ -10,5 +10,5 @@
 
 namespace Core
 {
-    void InjectPatches();
+    void Init();
 }

@@ -16,58 +16,60 @@ namespace
 
 namespace Skyboxes
 {
-    // Gets current season as int (we only care about autumn, it has a unique skybox)
-    static void __declspec(naked) GetSeason()
-    {
-        __asm {
-            call TS::Globals
-            mov edx,[eax]
-            mov ecx,eax
-            call [edx+0x84]
-            mov esi,eax
-            test esi,esi
-            jz LAB_Return
-            mov edx,[esi]
-            mov ecx,esi
-            call [edx+0x44]
-            mov [currSeason],eax
-        LAB_Return:
-            ret
-        }
-    }
-
-    // Gets time of day as int (0 = day, 1 = evening, 2 = night, 3 = morning)
+    // Gets time of day as int
+    // 0 = day, 1 = evening, 2 = night, 3 = morning
     static void __declspec(naked) GetTimeOfDay()
     {
         __asm {
             call TS::Globals
+            mov edx,[eax]
             mov ecx,eax
-            call cTSGlobals::GetSimulator
+            call [edx+0xC] // cTSGlobals::GetSimulator
             test eax,eax
             jz LAB_Return // Simulator object is null when game first launches
             mov edx,[eax]
             mov ecx,eax
-            call [edx+0xC0]
+            call [edx+0xC0] // cTSSimulator::GetTimeOfDay
             mov [timeOfDay],eax
         LAB_Return:
             ret
         }
     }
 
-    // Gets current precipitation type as int (0 = clear, 1 = snow, 2 = rain, 3 = hail)
+    // Gets current season as int
+    // We only care about autumn, it has a unique skybox
+    static void __declspec(naked) GetSeason()
+    {
+        __asm {
+            call TS::Globals
+            mov edx,[eax]
+            mov ecx,eax
+            call [edx+0x84] // cTSGlobals::CurrentWeatherInfo
+            test eax,eax
+            jz LAB_Return
+            mov edx,[eax]
+            mov ecx,eax
+            call [edx+0x44] // cTSWeatherInfo::Season
+            mov [currSeason],eax
+        LAB_Return:
+            ret
+        }
+    }
+
+    // Gets current precipitation type as int
+    // 0 = clear, 1 = snow, 2 = rain, 3 = hail
     static void __declspec(naked) GetPrecipitationType()
     {
         __asm {
             call TS::Globals
             mov edx,[eax]
             mov ecx,eax
-            call [edx+0x84]
-            mov esi,eax
-            test esi,esi
+            call [edx+0x84] // cTSGlobals::CurrentWeatherInfo
+            test eax,eax
             jz LAB_Return
-            mov eax,[esi]
-            mov ecx,esi
-            call [eax+0x64]
+            mov edx,[eax]
+            mov ecx,eax
+            call [edx+0x64] // cTSWeatherInfo::PrecipitationType
             mov [precipitationType],eax
         LAB_Return:
             ret
@@ -80,15 +82,15 @@ namespace Skyboxes
         __asm {
             call GetTimeOfDay // Don't want to use overcast reflection at night
             cmp [timeOfDay],0x2 // Night
-            jz LAB_Return
+            je LAB_Return
             cmp [timeOfDay],0x3 // Morning
-            jz LAB_Return
+            je LAB_Return
             cmp [precipitationType],0x1 // Snow
-            jz LAB_OvercastSnow
+            je LAB_OvercastSnow
             cmp [precipitationType],0x2 // Rain
-            jz LAB_Overcast
+            je LAB_Overcast
             cmp [precipitationType],0x3 // Hail
-            jnz LAB_Return
+            jne LAB_Return
         LAB_Overcast:
             push offset envCubeOvercast
             jmp LAB_RegisterEnvCube
@@ -105,7 +107,7 @@ namespace Skyboxes
 
     // cTSWeatherInfo::SetPrecipitationType
     // Updates skybox reflection on weather change
-    // We do this here as lighting manager isn't always prompted to update
+    // We do this here as lighting manager is inconsistent with when it updates
     void __declspec(naked) UpdateWeatherReflections()
     {
         __asm {
@@ -130,15 +132,15 @@ namespace Skyboxes
         __asm {
             call GetTimeOfDay
             cmp [timeOfDay],0x2 // Night
-            jz LAB_Night
+            je LAB_Night
             cmp [timeOfDay],0x3 // Morning
-            jz LAB_Night
+            je LAB_Night
             call GetPrecipitationType
             cmp [precipitationType],0x0
-            jnz LAB_Weather // Also do this here in case time changes but weather doesn't
+            jne LAB_Weather // Also do this here in case time changes but weather doesn't
             call GetSeason
             cmp [currSeason],0x2 // Autumn
-            jz LAB_Autumn
+            je LAB_Autumn
         LAB_Day:
             push 0x123BA7C // Day envcube
             jmp LAB_RegisterEnvCube

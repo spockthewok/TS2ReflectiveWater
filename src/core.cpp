@@ -2,25 +2,35 @@
 
 namespace Core
 {
-    void InjectPatches()
+    static void InjectPatches()
     {
         // Ocean
         Ocean::ForceLotReflections();
         Hooking::MakeJMP((BYTE *)0xA80989, (DWORD)Ocean::AdjustLotSkirtOffset, 6);
         Hooking::MakeJMP((BYTE *)0xA809D3, (DWORD)Ocean::EnableCastawayStyleReflections, 6);
+
         // Props
-        Props::EnableTreeReflections();
-        Hooking::MakeJMP((BYTE *)0xAD508C, (DWORD)Props::EnableBridgeReflections, 5);
+        if (Config::enableTreeReflections)
+            Props::EnableTreeReflections();
+        if (Config::enableBridgeReflections)
+            Hooking::MakeJMP((BYTE *)0xAD508C, (DWORD)Props::EnableBridgeReflections, 5);
+
         // Lots
-        Hooking::MakeJMP((BYTE *)0xA771C5, (DWORD)Lots::EnableWallReflections, 6);
-        Hooking::MakeJMP((BYTE *)0xAE562F, (DWORD)Lots::EnableFloorReflections, 5);
-        Hooking::MakeJMP((BYTE *)0xAE59A2, (DWORD)Lots::EnableCeilingReflections, 5);
+        if (Config::enableWallReflections)
+            Hooking::MakeJMP((BYTE *)0xA771C5, (DWORD)Lots::EnableWallReflections, 6);
+        if (Config::enableFloorReflections)
+            Hooking::MakeJMP((BYTE *)0xAE562F, (DWORD)Lots::EnableFloorReflections, 5);
+        if (Config::enableCeilingReflections)
+            Hooking::MakeJMP((BYTE *)0xAE59A2, (DWORD)Lots::EnableCeilingReflections, 5);
+
         // Terrain
         Terrain::EnablePoolTerrainReflections();
         Hooking::MakeJMP((BYTE *)0xAE1A61, (DWORD)Terrain::EnableLotTerrainReflections, 5);
+
         // Skyboxes
         Hooking::MakeJMP((BYTE *)0x7F54D3, (DWORD)Skyboxes::UpdateWeatherReflections, 6);
         Hooking::MakeJMP((BYTE *)0xAA55ED, (DWORD)Skyboxes::HandleTimeOfDayReflections, 5);
+
         // Neighbourhood
         Hooking::MakeJMP((BYTE *)0xADA9A0, (DWORD)Hood::EnableHoodFullSceneReflections, 5);
 
@@ -34,5 +44,11 @@ namespace Core
             Hooking::MakeJMP((BYTE *)0xB626E2, (DWORD)Ponds::ConfigureViewer, 6);
             Hooking::MakeJMP((BYTE *)0xAE1090, (DWORD)Ponds::UpdateCameraOnElevationChange, 5);
         }
+    }
+
+    void Init()
+    {
+        Config::Init();
+        InjectPatches();
     }
 }

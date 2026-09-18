@@ -11,11 +11,6 @@ namespace nTSWorld
     const DWORD TSSGSystem = 0x42CF1B;
 }
 
-namespace cTSGlobals
-{
-    const DWORD GetSimulator = 0x72A999;
-}
-
 namespace TS
 {
     const DWORD Globals = 0x799A0D;

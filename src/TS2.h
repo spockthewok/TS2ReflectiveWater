@@ -11,18 +11,13 @@ namespace nTSWorld
     extern const DWORD TSSGSystem;
 }
 
-namespace cTSGlobals
-{
-    extern const DWORD GetSimulator;
-}
-
 namespace TS
 {
     extern const DWORD Globals;
 }
 
 // Actually an anonymous namespace according to macOS binary
-// Only XREF is cLightingManager, hence the namespace used here
+// Only XREF is cLightingManager class, hence the namespace used here
 namespace cLightingManager
 {
     extern const DWORD RegisterEnvCubeForSkyBox;
@@ -42,7 +37,7 @@ namespace cWaterGeometryBuilder
 
 namespace Unknown
 {
-    // No idea if this is the name of this method
+    // No idea what the name of this method is
     // macOS does its operations inline, or just performs a cast
     extern const DWORD FloatToInt;
 }

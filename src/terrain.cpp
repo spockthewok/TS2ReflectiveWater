@@ -10,7 +10,7 @@ namespace
 namespace Terrain
 {
     // cPoolManager::SetupPoolReflectionCamera
-    // Skips visibility flag filtering to allow terrain to reflect in pool water
+    // Skips render flag filtering to allow terrain to reflect in pool water
     void EnablePoolTerrainReflections()
     {
         // JMP 0xA68B54
@@ -18,7 +18,7 @@ namespace Terrain
     }
 
     // cTerrain::SetSubsetRenderStates
-    // Gives visibility flag to terrain material types so ocean plane can "see" them
+    // Gives render flag to terrain material types so ocean plane can "see" them
     void __declspec(naked) EnableLotTerrainReflections()
     {
         __asm {
@@ -26,11 +26,11 @@ namespace Terrain
             test eax,eax
             jz LAB_ApplyFlag
             cmp eax,0x1
-            jz LAB_ApplyFlag
+            je LAB_ApplyFlag
             cmp eax,0x3
-            jz LAB_ApplyFlag
+            je LAB_ApplyFlag
             cmp eax,0x4
-            jnz LAB_Exit
+            jne LAB_Exit
         LAB_ApplyFlag:
             mov eax,[esi]
             mov ebx,[edi]
