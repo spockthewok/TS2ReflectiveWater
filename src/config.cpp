@@ -77,7 +77,7 @@ namespace Config
 
         oceanReflectionOffset = GetIniValue("Ocean", "oceanReflectionOffset", oceanReflectionOffset);
         enableTreeReflections = GetIniValue("Props", "enableTreeReflections", enableTreeReflections);
-        enableBridgeReflections = GetIniValue("Props", "enableBridgeReflection", enableBridgeReflections);
+        enableBridgeReflections = GetIniValue("Props", "enableBridgeReflections", enableBridgeReflections);
         enableWallReflections = GetIniValue("Lots", "enableWallReflections", enableWallReflections);
         enableFloorReflections = GetIniValue("Lots", "enableFloorReflections", enableFloorReflections);
         enableCeilingReflections = GetIniValue("Lots", "enableCeilingReflections", enableCeilingReflections);
