@@ -21,45 +21,42 @@ namespace Config
     // Ponds
     bool enablePondReflections = true;
 
-    static std::string GetString(const std::string &section, const std::string &key, std::string defaultValue)
+    template <typename T>
+    static T SetIniValue(const std::string &section, const std::string &key, T defaultValue)
     {
-        if (!ini[section].has(key))
-        {
+        if constexpr (std::is_same_v<T, std::string>)
             ini[section][key] = defaultValue;
-            return defaultValue;
-        }
-
-        return ini[section][key];
-    }
-
-    static bool GetBool(const std::string &section, const std::string &key, bool defaultValue)
-    {
-        std::string defaultString;
-        if (defaultValue)
-            defaultString = "true";
         else
-            defaultString = "false";
+            ini[section][key] = std::to_string(defaultValue);
 
-        std::string value = GetString(section, key, defaultString);
-
-        return (value == "true" || value == "1");
+        return defaultValue;
     }
 
-    static float GetFloat(const std::string &section, const std::string &key, float defaultValue)
+    template <typename T>
+    static T GetIniValue(const std::string &section, const std::string &key, T defaultValue)
     {
-        if (!ini[section].has(key))
-        {
-            ini[section][key] = std::to_string(defaultValue);
-            return defaultValue;
-        }
+        if (!ini.has(section) || !ini[section].has(key))
+            return SetIniValue(section, key, defaultValue);
 
-        return std::stof(ini[section][key]);
+        const auto &value = ini[section][key];
+
+        if constexpr (std::is_same_v<T, bool>)
+            return (value == "true" || value == "1");
+        else if constexpr (std::is_same_v<T, int>)
+            return std::stoi(value);
+        else if constexpr (std::is_same_v<T, float>)
+            return std::stof(value);
+        else if constexpr (std::is_same_v<T, double>)
+            return std::stod(value);
+        else if constexpr (std::is_same_v<T, std::string>)
+            return value;
+
+        return defaultValue;
     }
 
     static bool IsDllLoaded(const char *dllName)
     {
-        HMODULE hModule = GetModuleHandleA(dllName);
-        return (hModule != nullptr);
+        return (GetModuleHandleA(dllName) != nullptr);
     }
 
     void Init()
@@ -78,14 +75,14 @@ namespace Config
         if (!file.read(ini))
             return;
 
-        oceanReflectionOffset = GetFloat("Ocean", "oceanReflectionOffset", oceanReflectionOffset);
-        enableTreeReflections = GetBool("Props", "enableTreeReflections", enableTreeReflections);
-        enableBridgeReflections = GetBool("Props", "enableBridgeReflection", enableBridgeReflections);
-        enableWallReflections = GetBool("Lots", "enableWallReflections", enableWallReflections);
-        enableFloorReflections = GetBool("Lots", "enableFloorReflections", enableFloorReflections);
-        enableCeilingReflections = GetBool("Lots", "enableCeilingReflections", enableCeilingReflections);
+        oceanReflectionOffset = GetIniValue("Ocean", "oceanReflectionOffset", oceanReflectionOffset);
+        enableTreeReflections = GetIniValue("Props", "enableTreeReflections", enableTreeReflections);
+        enableBridgeReflections = GetIniValue("Props", "enableBridgeReflection", enableBridgeReflections);
+        enableWallReflections = GetIniValue("Lots", "enableWallReflections", enableWallReflections);
+        enableFloorReflections = GetIniValue("Lots", "enableFloorReflections", enableFloorReflections);
+        enableCeilingReflections = GetIniValue("Lots", "enableCeilingReflections", enableCeilingReflections);
         if (!hasBetaFloors)
-            enablePondReflections = GetBool("Ponds", "enablePondReflections", enablePondReflections);
+            enablePondReflections = GetIniValue("Ponds", "enablePondReflections", enablePondReflections);
 
         file.write(ini, true);
     }

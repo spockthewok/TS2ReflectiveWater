@@ -192,6 +192,8 @@ TS2BetaFloors would cause. Their edits to the mirror shader are included in this
 lot skirt paints from Castaway Stories.
 
 ## Thanks
+[metayeti](https://github.com/metayeti), for [mINI](https://github.com/metayeti/mINI/).
+
 [LazyDuchess](https://github.com/LazyDuchess), for the hooking code used in this mod, and for
 [Lot Lighting Fixes](https://www.tumblr.com/lazyduchess/664532503980310529/ts2-lot-lighting-fixes).
 
