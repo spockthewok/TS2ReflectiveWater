@@ -5,37 +5,46 @@ namespace Core
     static void InjectPatches()
     {
         // Ocean
-        Ocean::ForceLotReflections();
-        Hooking::MakeJMP((BYTE *)0xA80989, (DWORD)Ocean::AdjustLotSkirtOffset, 6);
-        Hooking::MakeJMP((BYTE *)0xA809D3, (DWORD)Ocean::EnableCastawayStyleReflections, 6);
+        if (Config::oceanReflections)
+        {
+            Ocean::ForceLotReflections();
+            Hooking::MakeJMP((BYTE *)0xA80989, (DWORD)Ocean::AdjustLotSkirtOffset, 6);
+            Hooking::MakeJMP((BYTE *)0xA809D3, (DWORD)Ocean::EnableCastawayStyleReflections, 6);
+        }
 
         // Props
-        if (Config::enableTreeReflections)
+        if (Config::treeReflections)
             Props::EnableTreeReflections();
-        if (Config::enableBridgeReflections)
+        if (Config::bridgeReflections)
             Hooking::MakeJMP((BYTE *)0xAD508C, (DWORD)Props::EnableBridgeReflections, 5);
 
         // Lots
-        if (Config::enableWallReflections)
+        if (Config::wallReflections)
             Hooking::MakeJMP((BYTE *)0xA771C5, (DWORD)Lots::EnableWallReflections, 6);
-        if (Config::enableFloorReflections)
+        if (Config::floorReflections)
             Hooking::MakeJMP((BYTE *)0xAE562F, (DWORD)Lots::EnableFloorReflections, 5);
-        if (Config::enableCeilingReflections)
+        if (Config::ceilingReflections)
             Hooking::MakeJMP((BYTE *)0xAE59A2, (DWORD)Lots::EnableCeilingReflections, 5);
 
         // Terrain
-        Terrain::EnablePoolTerrainReflections();
-        Hooking::MakeJMP((BYTE *)0xAE1A61, (DWORD)Terrain::EnableLotTerrainReflections, 5);
+        if (Config::poolTerrainReflections)
+            Terrain::EnablePoolTerrainReflections();
+        if (Config::lotTerrainReflections)
+            Hooking::MakeJMP((BYTE *)0xAE1A61, (DWORD)Terrain::EnableLotTerrainReflections, 5);
 
         // Skyboxes
-        Hooking::MakeJMP((BYTE *)0x7F54D3, (DWORD)Skyboxes::UpdateWeatherReflections, 6);
-        Hooking::MakeJMP((BYTE *)0xAA55ED, (DWORD)Skyboxes::HandleTimeOfDayReflections, 5);
+        if (Config::fixSkyboxReflections)
+        {
+            Hooking::MakeJMP((BYTE *)0x7F54D3, (DWORD)Skyboxes::UpdateWeatherReflections, 6);
+            Hooking::MakeJMP((BYTE *)0xAA55ED, (DWORD)Skyboxes::HandleTimeOfDayReflections, 5);
+        }
 
         // Neighbourhood
-        Hooking::MakeJMP((BYTE *)0xADA9A0, (DWORD)Hood::EnableHoodFullSceneReflections, 5);
+        if (Config::betterNHoodReflections)
+            Hooking::MakeJMP((BYTE *)0xADA9A0, (DWORD)Hood::EnableHoodFullSceneReflections, 5);
 
         // Ponds
-        if (Config::enablePondReflections)
+        if (Config::pondReflections)
         {
             Hooking::MakeJMP((BYTE *)0xAE63CA, (DWORD)Ponds::InitPondCamera, 5);
             Hooking::MakeJMP((BYTE *)0xAE4880, (DWORD)Ponds::DetachCameraOnShutdown, 6);

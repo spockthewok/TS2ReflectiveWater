@@ -158,27 +158,43 @@ There are multiple versions of both the ocean and pond shaders for the sake of c
 The included `TS2ReflectiveWater.ini` file contains all of the settings that can be adjusted in this mod. An overview of what each setting does is provided
 below:
 
+- `oceanReflections`: Enables/disables the patch that forces lot ocean reflections to be on. Disabling this would essentially disable everything
+   other than the pool, neighbourhood, and pond features.
+
+   *Default value = true*
 - `oceanReflectionOffset`: Controls how much the gap between the ocean and terrain should be reduced. Higher values mean less of a gap, a value of 0 would
    disable the feature and mean the gap is not reduced at all.
 
    *Default value = 0.45*
-- `enableTreeReflections`: Enables/disables trees appearing in lot water reflections.
+- `treeReflections`: Allows trees to reflect in the lot ocean.
 
    *Default value = true*
-- `enableBridgeReflections`: Enables/disables neighbourhood bridges appearing in lot water reflections. This can be disabled if you don't use
+- `bridgeReflections`: Allows neighbourhood bridges to reflect in the lot ocean. This can be disabled if you don't use
    [TS2VisibleHoodFX](https://github.com/spockthewok/TS2VisibleHoodFX).
 
    *Default value = true*
-- `enableWallReflections`: Enables/disables walls on the current lot appearing in lot water reflections.
+- `wallReflections`: Allows walls on the current lot to reflect in the lot ocean.
 
    *Default value = true*
-- `enableFloorReflections`: Enables/disables floor tiles on the current lot appearing in lot water reflections.
+- `floorReflections`: Allows floor tiles on the current lot to reflect in the lot ocean.
 
    *Default value = true*
-- `enableCeilingReflections`: Enables/disables ceiling tiles on the current lot appearing in lot water reflections.
+- `ceilingReflections`: Allows ceiling tiles on the current lot to reflect in the lot ocean.
 
    *Default value = true*
-- `enablePondReflections`: Enables/disables pond reflections. This feature will be automatically disabled if the mod detects you are using
+- `poolTerrainReflections`: Allows the terrain to reflect in pool water.
+
+   *Default value = true*
+- `lotTerrainReflections`: Allows the terrain of the current lot to reflect in the lot ocean.
+
+   *Default value = true*
+- `fixSkyboxReflections`: Enables/disables the fix for skybox reflections getting stuck in seasons other than summer.
+
+   *Default value = true*
+- `betterNHoodReflections`: Allows more objects (e.g. houses) to reflect in neighbourhood water.
+
+   *Default value = true*
+- `pondReflections`: Enables/disables pond reflections. This feature will be automatically disabled if the mod detects you are using
    [TS2BetaFloors](https://github.com/spockthewok/TS2BetaFloors).
 
    *Default value = true*

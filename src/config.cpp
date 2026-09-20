@@ -12,16 +12,24 @@ namespace
 namespace Config
 {
     // Ocean
+    bool oceanReflections = true;
     float oceanReflectionOffset = 0.45;
     // Props
-    bool enableTreeReflections = true;
-    bool enableBridgeReflections = true;
+    bool treeReflections = true;
+    bool bridgeReflections = true;
     // Lots
-    bool enableWallReflections = true;
-    bool enableFloorReflections = true;
-    bool enableCeilingReflections = true;
+    bool wallReflections = true;
+    bool floorReflections = true;
+    bool ceilingReflections = true;
+    // Terrain
+    bool poolTerrainReflections = true;
+    bool lotTerrainReflections = true;
+    // Skyboxes
+    bool fixSkyboxReflections = true;
+    // Neighbourhood
+    bool betterNHoodReflections = true;
     // Ponds
-    bool enablePondReflections = true;
+    bool pondReflections = true;
 
     template <typename T>
     static T SetIniValue(const std::string &section, const std::string &key, T defaultValue)
@@ -88,18 +96,22 @@ namespace Config
         if (!file.read(ini))
             iniGenerate = true;
 
+        oceanReflections = GetIniValue("Ocean", "oceanReflections", oceanReflections);
         oceanReflectionOffset = GetIniValue("Ocean", "oceanReflectionOffset", oceanReflectionOffset);
-        enableTreeReflections = GetIniValue("Props", "enableTreeReflections", enableTreeReflections);
-        enableBridgeReflections = GetIniValue("Props", "enableBridgeReflections", enableBridgeReflections);
-        enableWallReflections = GetIniValue("Lots", "enableWallReflections", enableWallReflections);
-        enableFloorReflections = GetIniValue("Lots", "enableFloorReflections", enableFloorReflections);
-        enableCeilingReflections = GetIniValue("Lots", "enableCeilingReflections", enableCeilingReflections);
+        treeReflections = GetIniValue("Props", "treeReflections", treeReflections);
+        bridgeReflections = GetIniValue("Props", "bridgeReflections", bridgeReflections);
+        wallReflections = GetIniValue("Lots", "wallReflections", wallReflections);
+        floorReflections = GetIniValue("Lots", "floorReflections", floorReflections);
+        ceilingReflections = GetIniValue("Lots", "ceilingReflections", ceilingReflections);
+        poolTerrainReflections = GetIniValue("Terrain", "poolTerrainReflections", poolTerrainReflections);
+        lotTerrainReflections = GetIniValue("Terrain", "lotTerrainReflections", lotTerrainReflections);
+        fixSkyboxReflections = GetIniValue("Skyboxes", "fixSkyboxReflections", fixSkyboxReflections);
+        betterNHoodReflections = GetIniValue("Neighbourhood", "betterNHoodReflections", betterNHoodReflections);
 
-        bool hasBetaFloors = IsDllLoaded("TS2BetaFloors.asi");
-        if (hasBetaFloors)
-            enablePondReflections = SetIniValue("Ponds", "enablePondReflections", false);
+        if (IsDllLoaded("TS2BetaFloors.asi"))
+            pondReflections = SetIniValue("Ponds", "pondReflections", false);
         else
-            enablePondReflections = GetIniValue("Ponds", "enablePondReflections", enablePondReflections);
+            pondReflections = GetIniValue("Ponds", "pondReflections", pondReflections);
 
         if (iniGenerate)
             file.generate(ini, true);
