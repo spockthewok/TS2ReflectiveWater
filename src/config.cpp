@@ -3,8 +3,10 @@
 namespace
 {
     mINI::INIStructure ini;
-    const char *configNameBase = "TS2ReflectiveWater.ini";
-    const char *configNameRPC = "mods/TS2ReflectiveWater.ini";
+    const std::filesystem::path configNameBase = "TS2ReflectiveWater.ini";
+    const std::filesystem::path configNameRPC = "mods/TS2ReflectiveWater.ini";
+    bool iniGenerate = false;
+    bool iniWrite = false;
 }
 
 namespace Config
@@ -28,6 +30,8 @@ namespace Config
             ini[section][key] = defaultValue;
         else
             ini[section][key] = std::to_string(defaultValue);
+
+        iniWrite = true;
 
         return defaultValue;
     }
@@ -54,26 +58,35 @@ namespace Config
         return defaultValue;
     }
 
-    static bool IsDllLoaded(const char *dllName)
+    static std::string GetModuleName()
+    {
+        char buffer[MAX_PATH];
+
+        DWORD pathLen = GetModuleFileNameA(nullptr, buffer, MAX_PATH);
+
+        if (pathLen == 0 || pathLen == MAX_PATH)
+            return "";
+
+        std::filesystem::path exePath(buffer);
+        return exePath.filename().string();
+    }
+
+    static bool IsDllLoaded(LPCSTR dllName)
     {
         return (GetModuleHandleA(dllName) != nullptr);
     }
 
     void Init()
     {
-        const char *configName = configNameBase;
+        std::filesystem::path configName = configNameBase;
 
-        if (std::filesystem::exists(configNameRPC))
+        if (GetModuleName().find("RPC.exe") != std::string::npos)
             configName = configNameRPC;
 
         mINI::INIFile file(configName);
 
-        bool hasBetaFloors = IsDllLoaded("TS2BetaFloors.asi");
-        if (hasBetaFloors)
-            enablePondReflections = false;
-
         if (!file.read(ini))
-            return;
+            iniGenerate = true;
 
         oceanReflectionOffset = GetIniValue("Ocean", "oceanReflectionOffset", oceanReflectionOffset);
         enableTreeReflections = GetIniValue("Props", "enableTreeReflections", enableTreeReflections);
@@ -81,9 +94,16 @@ namespace Config
         enableWallReflections = GetIniValue("Lots", "enableWallReflections", enableWallReflections);
         enableFloorReflections = GetIniValue("Lots", "enableFloorReflections", enableFloorReflections);
         enableCeilingReflections = GetIniValue("Lots", "enableCeilingReflections", enableCeilingReflections);
-        if (!hasBetaFloors)
+
+        bool hasBetaFloors = IsDllLoaded("TS2BetaFloors.asi");
+        if (hasBetaFloors)
+            enablePondReflections = SetIniValue("Ponds", "enablePondReflections", false);
+        else
             enablePondReflections = GetIniValue("Ponds", "enablePondReflections", enablePondReflections);
 
-        file.write(ini, true);
+        if (iniGenerate)
+            file.generate(ini, true);
+        else if (iniWrite)
+            file.write(ini, true);
     }
 }

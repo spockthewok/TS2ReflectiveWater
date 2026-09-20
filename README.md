@@ -85,7 +85,7 @@ which fix an issue where mirror and pond reflections would fight each other due 
 
 | Vanilla | Mod |
 | :-----: | :--: |
-| <img src="media/vanillaponds.png"> | <img src="media/modponds.png"> |
+| <img src="media/vanillaponds.png" width="450"> | <img src="media/modponds.png" width="450"> |
 
 > [!IMPORTANT]
 > Because of the use of the cut floor reflection camera, this feature unfortunately conflicts with the plugin from TS2BetaFloors. Both mods can be used together,
