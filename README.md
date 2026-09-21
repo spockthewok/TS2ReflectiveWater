@@ -89,7 +89,7 @@ which fix an issue where mirror and pond reflections would fight each other due 
 
 > [!IMPORTANT]
 > Because of the use of the cut floor reflection camera, this feature unfortunately conflicts with the plugin from TS2BetaFloors. Both mods can be used together,
-> but this feature will be automatically disabled if this mod detects that TS2BetaFloors is installed.
+> but it is <ins>essential</ins> that you disable this feature in the config file.
 >
 > It's still possible to achieve pond reflections with TS2BetaFloors by installing the pond water shaders from this mod, however the reflections will shift
 > up/down when switching between floors on a lot, as a result of how that mod repositions the reflection camera to match the height of the current floor. See
@@ -110,8 +110,8 @@ There are multiple versions of both the ocean and pond shaders for the sake of c
 **Sims2RPC Users:**
 
 1. Download `TS2ReflectiveWater.zip`, found under the [Releases](https://github.com/spockthewok/TS2ReflectiveWater/releases/latest) section of this repository.
-2. Extract `TS2ReflectiveWater.asi` and `TS2ReflectiveWater.ini` from the zip file to the `\TSBin\mods` directory, found wherever you have the Sims 2 installed to.
-   For example, on my machine, they would be moved to:
+2. Extract `TS2ReflectiveWater.asi` and `TS2ReflectiveWater.ini` from the zip file to the `\TSBin\mods` directory, found wherever you have the Sims 2 installed.
+   For example, on my machine, they would be extracted to:
 
    `E:\Games\The Sims 2\Fun with Pets\SP9\TSBin\mods`
 
@@ -136,9 +136,9 @@ There are multiple versions of both the ocean and pond shaders for the sake of c
 
    - <ins>Dreadpirate</ins>: [Dreadpirate's Shader Fixes](https://www.tumblr.com/dreadpirate/179182314487/blue-snow-no-more-shader-fixes-ive-included).
 
-   - <ins>LazyDuchess</ins>: [Lot Lighting Fixes](https://www.tumblr.com/lazyduchess/664532503980310529/ts2-lot-lighting-fixes).
+   - <ins>Lot Lighting Fixes</ins>: [Lot Lighting Fixes](https://www.tumblr.com/lazyduchess/664532503980310529/ts2-lot-lighting-fixes).
 
-   - <ins>Dreadpirate & LazyDuchess</ins>: The version of Lot Lighting Fixes compatible with Dreadpirate's Shader Fixes.
+   - <ins>Lot Lighting Fixes & Dreadpirate</ins>: The version of Lot Lighting Fixes compatible with Dreadpirate's Shader Fixes.
 
    - <ins>Christaskyy</ins>: [Improved Shaders](https://www.tumblr.com/christaskyy/821768821608169472/ts2-improved-shaders). This version only contains
       the mirror fixes that prevent mirror and pond reflections fighting each other, as Christaskyy's mod already has a reflective pond shader.
@@ -149,6 +149,8 @@ There are multiple versions of both the ocean and pond shaders for the sake of c
 
 4. Move one of the `.package` files within the `Ocean` folder to your Sims 2 `\Downloads` directory. Which version you should choose depends on which of
    these mods you use:
+
+   - <ins>Better Nightlife</ins>: [Better Nightlife](https://www.tumblr.com/criquette-was-here/157941568866/better-nightlife-ts2-custom-hood-deco-night).
 
    - <ins>Dreadpirate</ins>: [Dreadpirate's Shader Fixes](https://www.tumblr.com/dreadpirate/179182314487/blue-snow-no-more-shader-fixes-ive-included).
 
@@ -194,7 +196,7 @@ below:
 - `betterNHoodReflections`: Allows more objects (e.g. houses) to reflect in neighbourhood water.
 
    *Default value = true*
-- `pondReflections`: Enables/disables pond reflections. This feature will be automatically disabled if the mod detects you are using
+- `pondReflections`: Enables/disables pond reflections. This feature <ins>must</ins> be disabled if you use
    [TS2BetaFloors](https://github.com/spockthewok/TS2BetaFloors).
 
    *Default value = true*
@@ -202,7 +204,7 @@ below:
 ## Recommended Mods
 [Reflective Walls & Floors](https://www.thesimsresource.com/downloads/546583) by Murano &mdash; adds reflective overlays that can be placed on
 walls/floors, allowing you to have floor reflections and the pond reflections feature from this mod, without any of the issues that using
-TS2BetaFloors would cause. Their edits to the mirror shader are included in this mod by default.
+TS2BetaFloors would cause. Their edits to the mirror shaders are included in this mod by default.
 
 [Improved Shaders](https://www.tumblr.com/christaskyy/821768821608169472/ts2-improved-shaders) by Christaskyy &mdash; replicates the detailed
 lot skirt paints from Castaway Stories.
