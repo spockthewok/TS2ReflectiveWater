@@ -215,6 +215,9 @@ lot skirt paints from Castaway Stories.
 [LazyDuchess](https://github.com/LazyDuchess), for the hooking code used in this mod, and for
 [Lot Lighting Fixes](https://www.tumblr.com/lazyduchess/664532503980310529/ts2-lot-lighting-fixes).
 
-[dreadpirate](https://www.tumblr.com/dreadpirate), for their [shader fixes](https://www.tumblr.com/dreadpirate/179182314487/blue-snow-no-more-shader-fixes-ive-included).
+[Criquette](https://www.tumblr.com/criquette-was-here), for
+[Better Nightlife](https://www.tumblr.com/criquette-was-here/157941568866/better-nightlife-ts2-custom-hood-deco-night).
+
+[Dreadpirate](https://www.tumblr.com/dreadpirate), for their [shader fixes](https://www.tumblr.com/dreadpirate/179182314487/blue-snow-no-more-shader-fixes-ive-included).
 
 [Murano](https://www.thesimsresource.com/artists/Murano/), for their [Reflective Walls & Floors](https://www.thesimsresource.com/downloads/546583) mod.
