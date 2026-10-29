@@ -1,6 +1,4 @@
 #pragma once
-#include "headers.h"
-#include "include/ini.h"
 
 namespace Config
 {

@@ -1,4 +1,7 @@
-#include "ocean.h"
+#include "reflections/ocean.h"
+#include "hooking.h"
+#include "config.h"
+#include "TS2/base.h"
 
 namespace
 {
@@ -15,7 +18,7 @@ namespace Ocean
     void ForceLotReflections()
     {
         // XOR AL,AL -> MOV AL,0x1
-        Hooking::WriteToMemory((DWORD)0xA808F8, enableReflections, sizeof(enableReflections));
+        Hooking::WriteToMemory(0xA808F8, enableReflections, sizeof(enableReflections));
     }
 
     // Adds offset to ocean plane height to reduce visible gap between reflection and terrain

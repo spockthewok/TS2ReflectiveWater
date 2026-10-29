@@ -1,4 +1,6 @@
 #include "config.h"
+#include "headers.h"
+#include "include/ini.h"
 
 namespace
 {
@@ -13,7 +15,7 @@ namespace Config
 {
     // Ocean
     bool oceanReflections = true;
-    float oceanReflectionOffset = 0.45;
+    float oceanReflectionOffset = 0.45f;
     // Props
     bool treeReflections = true;
     bool bridgeReflections = true;

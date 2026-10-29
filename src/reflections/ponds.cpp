@@ -1,4 +1,8 @@
-#include "ponds.h"
+#include "reflections/ponds.h"
+#include "hooking.h"
+#include "TS2/base.h"
+#include "TS2/cWorldDB.h"
+#include <array>
 
 namespace
 {
@@ -7,9 +11,6 @@ namespace
     const DWORD Initialize_Exit = 0xAE63CF;
     const DWORD ConfigureReflectionCamera_Exit_1 = 0xB62653;
     const DWORD ConfigureReflectionCamera_Exit_2 = 0xB626FE;
-
-    int cVertex[3];
-    int maxX = 0;
 }
 
 // Repurposes the unused floor reflection system for pond water
@@ -27,9 +28,10 @@ namespace Ponds
             jne LAB_Exit
             mov [esi+0x80],0x1 // Set var required for camera
             pushad
+            mov edx,[esi]
             push 0x1
             mov ecx,esi
-            call cFloor::SetReflectionState
+            call [edx+0x48] // cFloor::SetReflectionState
             popad
         LAB_Exit:
             jmp Initialize_Exit
@@ -44,9 +46,10 @@ namespace Ponds
             cmp [esi+0x80],0x0
             je LAB_Exit
             pushad
-            mov ecx,esi
+            mov edx,[esi]
             push 0x0
-            call cFloor::SetReflectionState
+            mov ecx,esi
+            call [edx+0x48] // cFloor::SetReflectionState
             popad
             mov [esi+0x80],0x0
         LAB_Exit:
@@ -64,12 +67,25 @@ namespace Ponds
         Hooking::Nop((BYTE *)0xB62256, 22);
     }
 
-    static void BuildVertexStruct(int currX, int currY)
+    // We only really care about water elevation calculated by cWorldDB::IsWaterVertex
+    // If no pond water is found, elevation will be -0.5
+    static void FindPondWater(nTSWorld::cWorldDB *worldDB)
     {
-        cVertex[0] = currX;
-        cVertex[1] = currY;
-        // cWorldDB::IsWaterVertex requires z coord to be 0
-        cVertex[2] = 0;
+        int maxX = static_cast<int>(worldDB->MaxX());
+        int maxY = static_cast<int>(worldDB->MaxY());
+        std::array<int, 3> cVertex = {0, 0, 0};
+
+        for (int y = 0; y <= maxY; ++y)
+        {
+            for (int x = 0; x <= maxX; ++x)
+            {
+                cVertex[0] = x;
+                cVertex[1] = y;
+
+                if (worldDB->IsWaterVertex(cVertex.data()))
+                    return;
+            }
+        }
     }
 
     // (anonymous_namespace)::ConfigureReflectionCamera
@@ -78,43 +94,10 @@ namespace Ponds
     void __declspec(naked) SetPlaneHeight()
     {
         __asm {
-            call [eax+0x138] // cWorldDB::MaxY
-            call Unknown::FloatToInt
-            mov ebp,eax
-            mov eax,[esi]
-            mov ecx,esi
-            call [eax+0x134] // cWorldDB::MaxX
-            call Unknown::FloatToInt
-            mov [esp+0x1C],eax
-            mov [maxX],eax
-            mov eax,[esp+0x14]
-            mov [esp+0x24],eax
-            mov [esp+0x28],ebp
-        LAB_Loop:
-            push ebp
-            push [esp+0x20]
-            call BuildVertexStruct
-            add esp,0x8
-            mov edx,[esi]
-            push offset cVertex
-            mov ecx,esi
-            call [edx+0xE0] // cWorldDB::IsWaterVertex
-            test al,al
-            jnz LAB_SetHeight
-        LAB_DecrementY:
-            cmp dword ptr [esp+0x1C],0x0
-            jne LAB_DecrementX
-            test ebp,ebp
-            jz LAB_SetHeight // If we've reached (0,0)
-            mov eax,[maxX]
-            mov [esp+0x1C],eax
-            dec ebp
-            jmp LAB_Loop
-        LAB_DecrementX:
-            dec dword ptr [esp+0x1C]
-            jmp LAB_Loop
-        LAB_SetHeight:
-            fld [esp-0x14] // Water elevation calculated by cWorldDB::IsWaterVertex
+            push esi
+            call FindPondWater
+            add esp,0x4
+            fld [esp-0x44] // Water elevation calculated by cWorldDB::IsWaterVertex
             fstp [esp+0x48]
             jmp ConfigureReflectionCamera_Exit_1
         }
@@ -163,9 +146,7 @@ namespace Ponds
     {
         __asm {
             call cWaterGeometryBuilder::SetWaterElevation
-            call nTSWorld::TSSGSystem
-            test eax,eax
-            jz LAB_Exit
+            mov eax,dword ptr ds:[0x1478F10] // nTSSG::cTSSGSystem
             mov edx,[eax]
             mov ecx,eax
             call [edx+0x98] // cTSSGSystem::FloorManager

@@ -1,4 +1,5 @@
-#include "props.h"
+#include "reflections/props.h"
+#include "hooking.h"
 
 namespace
 {
@@ -16,7 +17,7 @@ namespace Props
     }
 
     // cNHoodOccupantManager::GetMergedGeometryUnderShapeRef
-    // Allows neighbourhood bridges to be reflected in lot view
+    // Gives render flag to neighbourhood bridges for lot view reflections
     // Bridges will only be present if using TS2VisibleHoodFX
     void __declspec(naked) EnableBridgeReflections()
     {

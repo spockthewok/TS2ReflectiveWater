@@ -1,4 +1,13 @@
 #include "core.h"
+#include "config.h"
+#include "hooking.h"
+#include "reflections/lots.h"
+#include "reflections/ocean.h"
+#include "reflections/props.h"
+#include "reflections/skyboxes.h"
+#include "reflections/terrain.h"
+#include "reflections/hood.h"
+#include "reflections/ponds.h"
 
 namespace Core
 {
@@ -36,7 +45,7 @@ namespace Core
         if (Config::fixSkyboxReflections)
         {
             Hooking::MakeJMP((BYTE *)0x7F54D3, (DWORD)Skyboxes::UpdateWeatherReflections, 6);
-            Hooking::MakeJMP((BYTE *)0xAA55ED, (DWORD)Skyboxes::HandleTimeOfDayReflections, 5);
+            Hooking::MakeJMP((BYTE *)0xAA55ED, (DWORD)Skyboxes::ReplaceEnvCubeSelection, 5);
         }
 
         // Neighbourhood

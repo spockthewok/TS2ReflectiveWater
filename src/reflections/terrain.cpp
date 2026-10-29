@@ -1,4 +1,5 @@
-#include "terrain.h"
+#include "reflections/terrain.h"
+#include "hooking.h"
 
 namespace
 {
@@ -14,7 +15,7 @@ namespace Terrain
     void EnablePoolTerrainReflections()
     {
         // JMP 0xA68B54
-        Hooking::WriteToMemory((DWORD)0xA68B1C, poolJump, sizeof(poolJump));
+        Hooking::WriteToMemory(0xA68B1C, poolJump, sizeof(poolJump));
     }
 
     // cTerrain::SetSubsetRenderStates
