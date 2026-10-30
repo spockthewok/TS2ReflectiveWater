@@ -67,25 +67,30 @@ namespace Ponds
         Hooking::Nop((BYTE *)0xB62256, 22);
     }
 
-    // We only really care about water elevation calculated by cWorldDB::IsWaterVertex
-    // If no pond water is found, elevation will be -0.5
     static void FindPondWater(nTSWorld::cWorldDB *worldDB)
     {
+        int minX = static_cast<int>(worldDB->MinX());
+        int minY = static_cast<int>(worldDB->MinY());
         int maxX = static_cast<int>(worldDB->MaxX());
         int maxY = static_cast<int>(worldDB->MaxY());
         std::array<int, 3> cVertex = {0, 0, 0};
 
-        for (int y = 0; y <= maxY; ++y)
+        for (int y = minY; y <= maxY; ++y)
         {
-            for (int x = 0; x <= maxX; ++x)
+            for (int x = minX; x <= maxX; ++x)
             {
                 cVertex[0] = x;
                 cVertex[1] = y;
 
                 if (worldDB->IsWaterVertex(cVertex.data()))
+                {
+                    worldDB->WaterElevation(x, y);
                     return;
+                }
             }
         }
+
+        worldDB->WaterElevation(cVertex[0], cVertex[1]);
     }
 
     // (anonymous_namespace)::ConfigureReflectionCamera
@@ -94,10 +99,10 @@ namespace Ponds
     void __declspec(naked) SetPlaneHeight()
     {
         __asm {
+            mov esi,dword ptr ds:[0x1479BE4]
             push esi
             call FindPondWater
             add esp,0x4
-            fld [esp-0x44] // Water elevation calculated by cWorldDB::IsWaterVertex
             fstp [esp+0x48]
             jmp ConfigureReflectionCamera_Exit_1
         }
