@@ -1,24 +1,23 @@
 #include "TS2/base.h"
 
+namespace Module
+{
+    DWORD base = 0x400000; // Default module base address
+}
+
 // Base addresses of various TS2 methods
 namespace cRZString
 {
-    const DWORD ToChar = 0x40FE7B;
+    ToCharFn ToChar = reinterpret_cast<ToCharFn>(0x40FE7B);
 }
 
 namespace TS
 {
-    GetGlobals Globals = reinterpret_cast<GetGlobals>(0x799A0D);
+    GlobalsFn Globals = reinterpret_cast<GlobalsFn>(0x799A0D);
 }
 
-DoRegisterEnvCubeForSkyBox RegisterEnvCubeForSkyBox = reinterpret_cast<DoRegisterEnvCubeForSkyBox>(0xA96480);
+RegisterEnvCubeForSkyBoxFn RegisterEnvCubeForSkyBox =
+    reinterpret_cast<RegisterEnvCubeForSkyBoxFn>(0xA96480);
 
-namespace cFloor
-{
-    const DWORD ConfigureReflectionCamera = 0xB62520;
-}
-
-namespace cWaterGeometryBuilder
-{
-    const DWORD SetWaterElevation = 0xB7C130;
-}
+ConfigureReflectionCameraFn ConfigureReflectionCamera =
+    reinterpret_cast<ConfigureReflectionCameraFn>(0xB62520);

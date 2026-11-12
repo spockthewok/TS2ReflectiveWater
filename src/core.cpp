@@ -1,6 +1,7 @@
 #include "core.h"
 #include "config.h"
 #include "hooking.h"
+#include "TS2/base.h"
 #include "reflections/lots.h"
 #include "reflections/ocean.h"
 #include "reflections/props.h"
@@ -17,55 +18,57 @@ namespace Core
         if (Config::oceanReflections)
         {
             Ocean::ForceLotReflections();
-            Hooking::MakeJMP((BYTE *)0xA80989, (DWORD)Ocean::AdjustLotSkirtOffset, 6);
-            Hooking::MakeJMP((BYTE *)0xA809D3, (DWORD)Ocean::EnableCastawayStyleReflections, 6);
+            Hooking::MakeJMP((0x680989 + Module::base), (DWORD)Ocean::AdjustLotSkirtOffset, 6);
+            Hooking::MakeJMP((0x6809D3 + Module::base), (DWORD)Ocean::EnableCastawayStyleReflections, 6);
         }
 
         // Props
         if (Config::treeReflections)
             Props::EnableTreeReflections();
         if (Config::bridgeReflections)
-            Hooking::MakeJMP((BYTE *)0xAD508C, (DWORD)Props::EnableBridgeReflections, 5);
+            Hooking::MakeJMP((0x6D508C + Module::base), (DWORD)Props::EnableBridgeReflections, 5);
 
         // Lots
         if (Config::wallReflections)
-            Hooking::MakeJMP((BYTE *)0xA771C5, (DWORD)Lots::EnableWallReflections, 6);
+            Hooking::MakeJMP((0x6771C5 + Module::base), (DWORD)Lots::EnableWallReflections, 6);
         if (Config::floorReflections)
-            Hooking::MakeJMP((BYTE *)0xAE562F, (DWORD)Lots::EnableFloorReflections, 5);
+            Hooking::MakeJMP((0x6E562F + Module::base), (DWORD)Lots::EnableFloorReflections, 5);
         if (Config::ceilingReflections)
-            Hooking::MakeJMP((BYTE *)0xAE59A2, (DWORD)Lots::EnableCeilingReflections, 5);
+            Hooking::MakeJMP((0x6E59A2 + Module::base), (DWORD)Lots::EnableCeilingReflections, 5);
 
         // Terrain
         if (Config::poolTerrainReflections)
             Terrain::EnablePoolTerrainReflections();
         if (Config::lotTerrainReflections)
-            Hooking::MakeJMP((BYTE *)0xAE1A61, (DWORD)Terrain::EnableLotTerrainReflections, 5);
+            Hooking::MakeJMP((0x6E1A61 + Module::base), (DWORD)Terrain::EnableLotTerrainReflections, 5);
 
         // Skyboxes
         if (Config::fixSkyboxReflections)
         {
-            Hooking::MakeJMP((BYTE *)0x7F54D3, (DWORD)Skyboxes::UpdateWeatherReflections, 6);
-            Hooking::MakeJMP((BYTE *)0xAA55ED, (DWORD)Skyboxes::ReplaceEnvCubeSelection, 5);
+            Hooking::MakeJMP((0x3F54D3 + Module::base), (DWORD)Skyboxes::UpdateWeatherReflections, 6);
+            Hooking::MakeJMP((0x6A55ED + Module::base), (DWORD)Skyboxes::ReplaceEnvCubeSelection, 5);
         }
 
         // Neighbourhood
         if (Config::betterNHoodReflections)
-            Hooking::MakeJMP((BYTE *)0xADA9A0, (DWORD)Hood::EnableHoodFullSceneReflections, 5);
+            Hooking::MakeJMP((0x6DA9A0 + Module::base), (DWORD)Hood::EnableHoodFullSceneReflections, 5);
 
         // Ponds
         if (Config::pondReflections)
         {
-            Hooking::MakeJMP((BYTE *)0xAE63CA, (DWORD)Ponds::InitPondCamera, 5);
-            Hooking::MakeJMP((BYTE *)0xAE4880, (DWORD)Ponds::DetachCameraOnShutdown, 6);
+            Hooking::MakeJMP((0x6E63CA + Module::base), (DWORD)Ponds::InitPondCamera, 5);
+            Hooking::MakeJMP((0x6E4880 + Module::base), (DWORD)Ponds::DetachCameraOnShutdown, 6);
             Ponds::FixVisibilityFilter();
-            Hooking::MakeJMP((BYTE *)0xB625DA, (DWORD)Ponds::SetPlaneHeight, 6);
-            Hooking::MakeJMP((BYTE *)0xB626E2, (DWORD)Ponds::ConfigureViewer, 6);
-            Hooking::MakeJMP((BYTE *)0xAE1090, (DWORD)Ponds::UpdateCameraOnElevationChange, 5);
+            Hooking::MakeJMP((0x7625DA + Module::base), (DWORD)Ponds::SetPlaneHeight, 6);
+            Hooking::MakeJMP((0x7626E2 + Module::base), (DWORD)Ponds::ConfigureViewer, 6);
+            Ponds::UpdateCameraOnElevationChange();
         }
     }
 
     void Init()
     {
+        Module::base = reinterpret_cast<DWORD>(GetModuleHandleA(NULL));
+
         Config::Init();
         InjectPatches();
     }

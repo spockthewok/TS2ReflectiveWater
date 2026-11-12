@@ -18,7 +18,7 @@ namespace Ocean
     void ForceLotReflections()
     {
         // XOR AL,AL -> MOV AL,0x1
-        Hooking::WriteToMemory(0xA808F8, enableReflections, sizeof(enableReflections));
+        Hooking::WriteToMemory((0x6808F8 + Module::base), enableReflections, sizeof(enableReflections));
     }
 
     // Adds offset to ocean plane height to reduce visible gap between reflection and terrain

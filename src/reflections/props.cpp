@@ -1,5 +1,6 @@
 #include "reflections/props.h"
 #include "hooking.h"
+#include "TS2/base.h"
 
 namespace
 {
@@ -13,7 +14,7 @@ namespace Props
     // Allows scene graph nodes to be created for them, giving flags required for reflections
     void EnableTreeReflections()
     {
-        Hooking::Nop((BYTE *)0xAD5DFD, 8);
+        Hooking::Nop((0x6D5DFD + Module::base), 8);
     }
 
     // cNHoodOccupantManager::GetMergedGeometryUnderShapeRef

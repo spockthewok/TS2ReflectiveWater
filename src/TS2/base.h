@@ -1,27 +1,27 @@
 #pragma once
 #include "headers.h"
 #include "TS2/cTSGlobals.h"
+#include "TS2/cFloor.h"
+
+namespace Module
+{
+    extern DWORD base;
+}
 
 namespace cRZString
 {
-    extern const DWORD ToChar;
+    using ToCharFn = const char *(__fastcall *)(void *); // Actual param type is cRZString object
+    extern ToCharFn ToChar;
 }
 
 namespace TS
 {
-    using GetGlobals = cTSGlobals *(__cdecl *)();
-    extern GetGlobals Globals;
+    using GlobalsFn = cTSGlobals *(__cdecl *)();
+    extern GlobalsFn Globals;
 }
 
-using DoRegisterEnvCubeForSkyBox = void(__cdecl *)(const char *, const char *);
-extern DoRegisterEnvCubeForSkyBox RegisterEnvCubeForSkyBox;
+using RegisterEnvCubeForSkyBoxFn = void(__cdecl *)(const char *, const char *);
+extern RegisterEnvCubeForSkyBoxFn RegisterEnvCubeForSkyBox;
 
-namespace cFloor
-{
-    extern const DWORD ConfigureReflectionCamera;
-}
-
-namespace cWaterGeometryBuilder
-{
-    extern const DWORD SetWaterElevation;
-}
+using ConfigureReflectionCameraFn = void(__cdecl *)(nTSSG::cIFloor *);
+extern ConfigureReflectionCameraFn ConfigureReflectionCamera;

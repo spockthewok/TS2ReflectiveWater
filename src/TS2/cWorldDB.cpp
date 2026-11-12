@@ -10,12 +10,14 @@ namespace nTSWorld
         return vFunc(this, cVertex);
     }
 
-    // Calls cWorldTerrain::WaterElevation, which loads the water elevation value into ST(0)
-    void cWorldDB::WaterElevation(int x, int y)
+    // Ghidra thinks this has a void return type
+    // Is a wrapper for cWorldTerrain::WaterElevation, which loads float into FPU
+    // Return type confusion likely due to cWorldDB method not needing to use any FPU instructions
+    float cWorldDB::WaterElevation(int x, int y)
     {
-        using Func = void(__thiscall *)(cWorldDB *, int, int);
+        using Func = float(__thiscall *)(cWorldDB *, int, int);
         auto vFunc = Common::GetVTableFn<Func>(this, 0xFC);
-        vFunc(this, x, y);
+        return vFunc(this, x, y);
     }
 
     float cWorldDB::MinX()

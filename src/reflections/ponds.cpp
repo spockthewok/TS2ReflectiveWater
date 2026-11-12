@@ -1,8 +1,12 @@
+#define NOMINMAX
 #include "reflections/ponds.h"
 #include "hooking.h"
 #include "TS2/base.h"
 #include "TS2/cWorldDB.h"
+#include "TS2/cTerrain.h"
+#include <algorithm>
 #include <array>
+#include <cmath>
 
 namespace
 {
@@ -64,16 +68,17 @@ namespace Ponds
     // This is much simpler and achieves the same result
     void FixVisibilityFilter()
     {
-        Hooking::Nop((BYTE *)0xB62256, 22);
+        Hooking::Nop((0x762256 + Module::base), 22);
     }
 
-    static void FindPondWater(nTSWorld::cWorldDB *worldDB)
+    static float GetWaterElevation(nTSWorld::cWorldDB *worldDB)
     {
+        std::array<int, 3> cVertex = {0, 0, 0};
         int minX = static_cast<int>(worldDB->MinX());
         int minY = static_cast<int>(worldDB->MinY());
         int maxX = static_cast<int>(worldDB->MaxX());
         int maxY = static_cast<int>(worldDB->MaxY());
-        std::array<int, 3> cVertex = {0, 0, 0};
+        float elevation = -std::numeric_limits<float>::infinity(); // For the sake of std::max
 
         for (int y = minY; y <= maxY; ++y)
         {
@@ -84,13 +89,16 @@ namespace Ponds
 
                 if (worldDB->IsWaterVertex(cVertex.data()))
                 {
-                    worldDB->WaterElevation(x, y);
-                    return;
+                    float currElevation = worldDB->WaterElevation(x, y);
+                    elevation = std::max(elevation, currElevation);
                 }
             }
         }
 
-        worldDB->WaterElevation(cVertex[0], cVertex[1]);
+        if (std::isinf(elevation))
+            return worldDB->WaterElevation(cVertex[0], cVertex[1]); // Defaults to -0.5 if no water
+
+        return elevation;
     }
 
     // (anonymous_namespace)::ConfigureReflectionCamera
@@ -101,7 +109,7 @@ namespace Ponds
         __asm {
             mov esi,dword ptr ds:[0x1479BE4]
             push esi
-            call FindPondWater
+            call GetWaterElevation
             add esp,0x4
             fstp [esp+0x48]
             jmp ConfigureReflectionCamera_Exit_1
@@ -144,30 +152,18 @@ namespace Ponds
         }
     }
 
-    // cTerrain::SetWaterElevation
-    // Updates reflection camera when player uses terrain tools
-    // Ensures reflection matches changes to water elevation
-    void __declspec(naked) UpdateCameraOnElevationChange()
+    // The dummy param only exists to maintain the expected stack layout
+    static void __fastcall SetWaterElevationHook(nTSSG::cTerrain *terrain, void *dummy,
+                                                 UINT x, UINT y, float elevation)
     {
-        __asm {
-            call cWaterGeometryBuilder::SetWaterElevation
-            mov eax,dword ptr ds:[0x1478F10] // nTSSG::cTSSGSystem
-            mov edx,[eax]
-            mov ecx,eax
-            call [edx+0x98] // cTSSGSystem::FloorManager
-            test eax,eax
-            jz LAB_Exit
-            mov edx,[eax]
-            push 0x0 // Level of cFloor object we want from manager
-            mov ecx,eax
-            call [edx+0x4C] // cFloorManager::Floor
-            test eax,eax
-            jz LAB_Exit
-            push eax
-            call cFloor::ConfigureReflectionCamera
-            add esp,0x4
-        LAB_Exit:
-            jmp SetWaterElevation_Exit
-        }
+        terrain->SetWaterElevation(x, y, elevation);
+    }
+
+    // cTerrain::SetWaterElevation
+    // Replaces method with our own that updates reflection camera when player uses terrain tools
+    // Ensures reflection matches changes to water elevation
+    void UpdateCameraOnElevationChange()
+    {
+        Hooking::MakeJMP((0x6E1060 + Module::base), (DWORD)SetWaterElevationHook, 7);
     }
 }
