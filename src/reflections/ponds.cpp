@@ -10,11 +10,9 @@
 
 namespace
 {
-    const DWORD SetWaterElevation_Exit = 0xAE1095;
-    const DWORD Shutdown_Exit = 0xAE4886;
-    const DWORD Initialize_Exit = 0xAE63CF;
-    const DWORD ConfigureReflectionCamera_Exit_1 = 0xB62653;
-    const DWORD ConfigureReflectionCamera_Exit_2 = 0xB626FE;
+    constexpr DWORD Shutdown_Exit = 0xAE4886;
+    constexpr DWORD Initialize_Exit = 0xAE63CF;
+    constexpr DWORD ConfigureReflectionCamera_Exit = 0xB62653;
 }
 
 // Repurposes the unused floor reflection system for pond water
@@ -112,43 +110,7 @@ namespace Ponds
             call GetWaterElevation
             add esp,0x4
             fstp [esp+0x48]
-            jmp ConfigureReflectionCamera_Exit_1
-        }
-    }
-
-    // (anonymous_namespace)::ConfigureReflectionCamera
-    // Extends floor viewer node config so ponds are as reflective as ocean
-    void __declspec(naked) ConfigureViewer()
-    {
-        __asm {
-            push 0x7 // 7 = kRenderTypePoolReflection
-            lea eax,[esp+0x2C]
-            push eax
-            push esi
-            mov ecx,edi
-            call [edx+0x194]
-            mov edx,[edi]
-            push 0x2 // 2 = kRenderTypeReflection
-            mov ecx,edi
-            call [edx+0x184]
-            mov edx,[edi]
-            push 0x1
-            mov ecx,edi
-            call [edx+0x1EC]
-            mov edx,[edi]
-            push 0x123AF80 // "lotSkirtReflectionSkybox"
-            push 0x0
-            mov ecx,edi
-            call [edx+0x1F0]
-            mov edx,[edi]
-            push -0x1
-            mov ecx,edi
-            call [edx+0x140]
-            mov edx,[edi]
-            push -0x1
-            mov ecx,edi
-            call [edx+0x138]
-            jmp ConfigureReflectionCamera_Exit_2
+            jmp ConfigureReflectionCamera_Exit
         }
     }
 

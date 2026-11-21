@@ -4,8 +4,8 @@
 
 namespace
 {
-    const DWORD SetPrecipitationType_Exit = 0x7F54D9;
-    const DWORD SetLightingStateByName_Exit = 0xAA5684;
+    constexpr DWORD SetPrecipitationType_Exit = 0x7F54D9;
+    constexpr DWORD SetLightingStateByName_Exit = 0xAA5684;
 }
 
 namespace Skyboxes

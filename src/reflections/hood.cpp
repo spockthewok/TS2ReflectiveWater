@@ -3,7 +3,7 @@
 
 namespace
 {
-    const DWORD BuildWaterReflection_Exit = 0xADA9BE;
+    constexpr DWORD BuildWaterReflection_Exit = 0xADA9BE;
 }
 
 namespace Hood

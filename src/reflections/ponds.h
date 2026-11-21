@@ -6,6 +6,5 @@ namespace Ponds
     extern "C" void DetachCameraOnShutdown();
     void FixVisibilityFilter();
     extern "C" void SetPlaneHeight();
-    extern "C" void ConfigureViewer();
     void UpdateCameraOnElevationChange();
 }

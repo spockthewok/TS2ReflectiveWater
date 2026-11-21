@@ -4,7 +4,7 @@
 
 namespace
 {
-    const DWORD GetMergedGeometryUnderShapeRef_Exit = 0xAD5091;
+    constexpr DWORD GetMergedGeometryUnderShapeRef_Exit = 0xAD5091;
 }
 
 namespace Props

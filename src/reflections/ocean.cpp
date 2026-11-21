@@ -5,8 +5,8 @@
 
 namespace
 {
-    const DWORD ConfigureOceanReflection_Exit_1 = 0xA8098F;
-    const DWORD ConfigureOceanReflection_Exit_2 = 0xA80AA2;
+    constexpr DWORD ConfigureOceanReflection_Exit_1 = 0xA8098F;
+    constexpr DWORD ConfigureOceanReflection_Exit_2 = 0xA80AA2;
 
     const BYTE enableReflections[2] = {0xB0, 0x01};
 }

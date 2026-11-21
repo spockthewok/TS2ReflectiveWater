@@ -3,9 +3,9 @@
 
 namespace
 {
-    const DWORD InitRenderStatesForNewSubsets_Exit = 0xA771CB;
-    const DWORD SetSubsetRenderStates_Exit_1 = 0xAE5634;
-    const DWORD SetSubsetRenderStates_Exit_2 = 0xAE59A7;
+    constexpr DWORD InitRenderStatesForNewSubsets_Exit = 0xA771CB;
+    constexpr DWORD SetSubsetRenderStates_Exit_1 = 0xAE5634;
+    constexpr DWORD SetSubsetRenderStates_Exit_2 = 0xAE59A7;
 }
 
 // Gives render flag to walls/floors/ceilings on lot so ocean plane can "see" them

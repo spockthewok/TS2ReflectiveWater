@@ -60,7 +60,6 @@ namespace Core
             Hooking::MakeJMP((0x6E4880 + Module::base), (DWORD)Ponds::DetachCameraOnShutdown, 6);
             Ponds::FixVisibilityFilter();
             Hooking::MakeJMP((0x7625DA + Module::base), (DWORD)Ponds::SetPlaneHeight, 6);
-            Hooking::MakeJMP((0x7626E2 + Module::base), (DWORD)Ponds::ConfigureViewer, 6);
             Ponds::UpdateCameraOnElevationChange();
         }
     }
