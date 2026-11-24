@@ -3,23 +3,6 @@
 
 namespace nTSWorld
 {
-    bool cWorldDB::IsWaterVertex(int *cVertex)
-    {
-        using Func = bool(__thiscall *)(cWorldDB *, int *);
-        auto vFunc = Common::GetVTableFn<Func>(this, 0xE0);
-        return vFunc(this, cVertex);
-    }
-
-    // Ghidra thinks this has a void return type
-    // Is a wrapper for cWorldTerrain::WaterElevation, which loads float into FPU
-    // Return type confusion likely due to cWorldDB method not needing to use any FPU instructions
-    float cWorldDB::WaterElevation(int x, int y)
-    {
-        using Func = float(__thiscall *)(cWorldDB *, int, int);
-        auto vFunc = Common::GetVTableFn<Func>(this, 0xFC);
-        return vFunc(this, x, y);
-    }
-
     float cWorldDB::MinX()
     {
         using Func = float(__thiscall *)(cWorldDB *);

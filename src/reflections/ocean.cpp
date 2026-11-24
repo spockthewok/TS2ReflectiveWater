@@ -15,14 +15,14 @@ namespace
 namespace Ocean
 {
     // Force enables lot ocean reflections
-    void ForceLotReflections()
+    static void ForceLotReflections()
     {
         // XOR AL,AL -> MOV AL,0x1
         Hooking::WriteToMemory((0x6808F8 + Module::base), enableReflections, sizeof(enableReflections));
     }
 
     // Adds offset to ocean plane height to reduce visible gap between reflection and terrain
-    void __declspec(naked) AdjustLotSkirtOffset()
+    static void __declspec(naked) AdjustReflectionOffset()
     {
         __asm {
             fadd [Config::oceanReflectionOffset]
@@ -32,7 +32,7 @@ namespace Ocean
     }
 
     // Use Castaway's ocean reflection setup for ocean viewer node
-    void __declspec(naked) EnableCastawayStyleReflections()
+    static void __declspec(naked) EnableCastawayStyleReflections()
     {
         __asm {
             fstp [esp+0x4C]
@@ -67,5 +67,12 @@ namespace Ocean
             call [edx+0x138]
             jmp ConfigureOceanReflection_Exit_2
         }
+    }
+
+    void EnhanceOceanReflections()
+    {
+        ForceLotReflections();
+        Hooking::MakeJMP((0x680989 + Module::base), (DWORD)AdjustReflectionOffset, 6);
+        Hooking::MakeJMP((0x6809D3 + Module::base), (DWORD)EnableCastawayStyleReflections, 6);
     }
 }

@@ -16,11 +16,7 @@ namespace Core
     {
         // Ocean
         if (Config::oceanReflections)
-        {
-            Ocean::ForceLotReflections();
-            Hooking::MakeJMP((0x680989 + Module::base), (DWORD)Ocean::AdjustLotSkirtOffset, 6);
-            Hooking::MakeJMP((0x6809D3 + Module::base), (DWORD)Ocean::EnableCastawayStyleReflections, 6);
-        }
+            Ocean::EnhanceOceanReflections();
 
         // Props
         if (Config::treeReflections)
@@ -44,10 +40,7 @@ namespace Core
 
         // Skyboxes
         if (Config::fixSkyboxReflections)
-        {
-            Hooking::MakeJMP((0x3F54D3 + Module::base), (DWORD)Skyboxes::UpdateWeatherReflections, 6);
-            Hooking::MakeJMP((0x6A55ED + Module::base), (DWORD)Skyboxes::ReplaceEnvCubeSelection, 5);
-        }
+            Skyboxes::FixSkyboxReflections();
 
         // Neighbourhood
         if (Config::betterNHoodReflections)
@@ -55,13 +48,7 @@ namespace Core
 
         // Ponds
         if (Config::pondReflections)
-        {
-            Hooking::MakeJMP((0x6E63CA + Module::base), (DWORD)Ponds::InitPondCamera, 5);
-            Hooking::MakeJMP((0x6E4880 + Module::base), (DWORD)Ponds::DetachCameraOnShutdown, 6);
-            Ponds::FixVisibilityFilter();
-            Hooking::MakeJMP((0x7625DA + Module::base), (DWORD)Ponds::SetPlaneHeight, 6);
-            Ponds::UpdateCameraOnElevationChange();
-        }
+            Ponds::EnablePondReflections();
     }
 
     void Init()

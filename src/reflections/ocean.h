@@ -2,7 +2,5 @@
 
 namespace Ocean
 {
-    void ForceLotReflections();
-    extern "C" void AdjustLotSkirtOffset();
-    extern "C" void EnableCastawayStyleReflections();
+    void EnhanceOceanReflections();
 }

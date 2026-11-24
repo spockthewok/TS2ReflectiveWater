@@ -1,4 +1,5 @@
 #include "reflections/skyboxes.h"
+#include "hooking.h"
 #include "TS2/base.h"
 #include <string>
 
@@ -96,8 +97,8 @@ namespace Skyboxes
 
     // cTSWeatherInfo::SetPrecipitationType
     // Updates skybox reflection on weather change
-    // We do this here as lighting manager is inconsistent with when it updates
-    void __declspec(naked) UpdateWeatherReflections()
+    // We do this here as lighting manager can be inconsistent with when it updates
+    static void __declspec(naked) UpdateWeatherReflections()
     {
         __asm {
             mov eax,[esp+0x4]
@@ -117,11 +118,19 @@ namespace Skyboxes
 
     // cLightingManager::SetLightingStateByName
     // Replaces generic day/night checks with our own more accurate checks
-    void __declspec(naked) ReplaceEnvCubeSelection()
+    static void __declspec(naked) ReplaceEnvCubeSelection()
     {
         __asm {
             call HandleTimeOfDayReflections
             jmp SetLightingStateByName_Exit
         }
+    }
+
+    void FixSkyboxReflections()
+    {
+        // cTSWeatherInfo::SetPrecipitationType
+        Hooking::MakeJMP((0x3F54D3 + Module::base), (DWORD)UpdateWeatherReflections, 6);
+        // cLightingManager::SetLightingStateByName
+        Hooking::MakeJMP((0x6A55ED + Module::base), (DWORD)ReplaceEnvCubeSelection, 5);
     }
 }

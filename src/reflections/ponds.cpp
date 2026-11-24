@@ -3,9 +3,9 @@
 #include "hooking.h"
 #include "TS2/base.h"
 #include "TS2/cWorldDB.h"
+#include "TS2/cWorldTerrain.h"
 #include "TS2/cTerrain.h"
 #include <algorithm>
-#include <array>
 #include <cmath>
 
 namespace
@@ -21,7 +21,7 @@ namespace Ponds
 {
     // cFloor::Initialize
     // Attaches reflection camera for cFloor object at level 0
-    void __declspec(naked) InitPondCamera()
+    static void __declspec(naked) InitPondCamera()
     {
         __asm {
             mov ecx,ebx
@@ -42,7 +42,7 @@ namespace Ponds
 
     // cFloor::Shutdown
     // Detaches camera as part of object destruction when exiting a lot
-    void __declspec(naked) DetachCameraOnShutdown()
+    static void __declspec(naked) DetachCameraOnShutdown()
     {
         __asm {
             cmp [esi+0x80],0x0
@@ -64,37 +64,34 @@ namespace Ponds
     // Patches out height range checks in visibility filter that cause reflection ghosting
     // It's possible to fix this by subtracting 0.75 from lower bound for certain node types
     // This is much simpler and achieves the same result
-    void FixVisibilityFilter()
+    static void FixVisibilityFilter()
     {
         Hooking::Nop((0x762256 + Module::base), 22);
     }
 
     static float GetWaterElevation(nTSWorld::cWorldDB *worldDB)
     {
-        std::array<int, 3> cVertex = {0, 0, 0};
-        int minX = static_cast<int>(worldDB->MinX());
-        int minY = static_cast<int>(worldDB->MinY());
-        int maxX = static_cast<int>(worldDB->MaxX());
-        int maxY = static_cast<int>(worldDB->MaxY());
+        nTSWorld::cWorldTerrain *worldTerrain =
+            *reinterpret_cast<nTSWorld::cWorldTerrain **>(worldDB + 0x58);
+
+        UINT minX = static_cast<UINT>(worldDB->MinX());
+        UINT minY = static_cast<UINT>(worldDB->MinY());
+        UINT maxX = static_cast<UINT>(worldDB->MaxX());
+        UINT maxY = static_cast<UINT>(worldDB->MaxY());
         float elevation = -std::numeric_limits<float>::infinity(); // For the sake of std::max
 
-        for (int y = minY; y <= maxY; ++y)
+        for (UINT y = minY; y <= maxY; ++y)
         {
-            for (int x = minX; x <= maxX; ++x)
+            for (UINT x = minX; x <= maxX; ++x)
             {
-                cVertex[0] = x;
-                cVertex[1] = y;
-
-                if (worldDB->IsWaterVertex(cVertex.data()))
-                {
-                    float currElevation = worldDB->WaterElevation(x, y);
-                    elevation = std::max(elevation, currElevation);
-                }
+                if (worldTerrain->IsPondVertex(x, y))
+                    elevation = std::max(elevation, worldTerrain->WaterElevation(x, y));
             }
         }
 
-        if (std::isinf(elevation))
-            return worldDB->WaterElevation(cVertex[0], cVertex[1]); // Defaults to -0.5 if no water
+        if (!std::isfinite(elevation))
+            // kWaterLevelBelowTheMinBoundaryHt (default = 0.3)
+            return -(*reinterpret_cast<float *>(0x14346B4));
 
         return elevation;
     }
@@ -102,7 +99,7 @@ namespace Ponds
     // (anonymous_namespace)::ConfigureReflectionCamera
     // Iterates through tiles in lot searching for pond water
     // Sets reflection plane height to elevation of water
-    void __declspec(naked) SetPlaneHeight()
+    static void __declspec(naked) SetPlaneHeight()
     {
         __asm {
             mov esi,dword ptr ds:[0x1479BE4]
@@ -114,18 +111,27 @@ namespace Ponds
         }
     }
 
-    // The dummy param only exists to maintain the expected stack layout
+    // cTerrain::SetWaterElevation
+    // Replaces method with our own that updates reflection camera when player uses terrain tools
+    // Ensures reflection matches changes to water elevation
+    // The dummy param's only purpose is to maintain the expected stack layout
     static void __fastcall SetWaterElevationHook(nTSSG::cTerrain *terrain, void *dummy,
                                                  UINT x, UINT y, float elevation)
     {
         terrain->SetWaterElevation(x, y, elevation);
     }
 
-    // cTerrain::SetWaterElevation
-    // Replaces method with our own that updates reflection camera when player uses terrain tools
-    // Ensures reflection matches changes to water elevation
-    void UpdateCameraOnElevationChange()
+    void EnablePondReflections()
     {
+        // cFloor::Initialize
+        Hooking::MakeJMP((0x6E63CA + Module::base), (DWORD)InitPondCamera, 5);
+        // cFloor::Shutdown
+        Hooking::MakeJMP((0x6E4880 + Module::base), (DWORD)DetachCameraOnShutdown, 6);
+        // cFloorReflectionVisibilityQueryFilter::TestNode
+        FixVisibilityFilter();
+        // (anonymous_namespace)::ConfigureReflectionCamera
+        Hooking::MakeJMP((0x7625DA + Module::base), (DWORD)SetPlaneHeight, 6);
+        // cTerrain::SetWaterElevation
         Hooking::MakeJMP((0x6E1060 + Module::base), (DWORD)SetWaterElevationHook, 7);
     }
 }
